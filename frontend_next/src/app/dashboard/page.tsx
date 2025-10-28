@@ -14,6 +14,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Slider } from '@/components/ui/slider'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function DashboardPage() {
   const { setTheme } = useTheme()
@@ -23,108 +24,140 @@ export default function DashboardPage() {
       <div className="flex-1">
         <Header />
 
-        
-
-        <main className="container mx-auto px-4 py-6">
-          <div className="mb-6 flex items-center justify-between gap-2">
+        <main className="container mx-auto max-w-7xl px-6 lg:px-8 py-8">
+          <div className="mb-6 flex items-center justify-between gap-3">
             <div>
-              <h2 className="text-xl font-semibold tracking-tight">Obra Dashboard</h2>
-              <p className="text-sm text-muted-foreground">Clean surfaces, subtle borders, balanced spacing</p>
+              <h2 className="text-[22px] sm:text-2xl font-semibold leading-tight tracking-tight">Dashboard</h2>
+              <p className="text-[13px] text-muted-foreground">A dashboard with sidebar, charts and data table</p>
             </div>
-            <div className="flex items-center gap-2">
-              <Link href="/chat"><Button variant="outline"><Sparkles className="mr-2 size-4" /> Open Chat</Button></Link>
-              <Button><Plus className="mr-2 size-4" /> New Project</Button>
-            </div>
+            <a href="https://ui.shadcn.com/blocks#dashboard-01" className="text-sm underline underline-offset-2">Documentation</a>
           </div>
 
-          <Alert className="mb-6">
-            <AlertTitle>Heads up</AlertTitle>
-            <AlertDescription>
-              This dashboard mirrors an Obra-style light layout using our shadcn primitives and theme tokens.
-            </AlertDescription>
-          </Alert>
+          <section className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            <KpiCard title="Total revenue" value="$82,450" delta="+12.3% from last month" />
+            <KpiCard title="New Customers" value="1,204" delta="+4.1% from last month" />
+            <KpiCard title="Active Accounts" value="8,431" delta="+2.7% from last month" />
+            <KpiCard title="Growth Rate" value="18.9%" delta="vs. prior period" />
+          </section>
 
-          <section className="grid gap-6 lg:grid-cols-3">
+          <section className="mt-6 grid gap-6 lg:grid-cols-3">
             <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle>Profile</CardTitle>
-                <CardDescription>Update your basic information</CardDescription>
+              <CardHeader className="pb-3">
+                <CardTitle>Total visitors</CardTitle>
+                <CardDescription>Traffic overview</CardDescription>
               </CardHeader>
               <CardContent>
-                <form className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2 sm:col-span-1">
-                    <Label htmlFor="firstName">First name</Label>
-                    <Input id="firstName" placeholder="Jane" />
-                  </div>
-                  <div className="space-y-2 sm:col-span-1">
-                    <Label htmlFor="lastName">Last name</Label>
-                    <Input id="lastName" placeholder="Doe" />
-                  </div>
-                  <div className="space-y-2 sm:col-span-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="jane@example.com" />
-                  </div>
-                  <div className="space-y-2 sm:col-span-2">
-                    <Label htmlFor="bio">Bio</Label>
-                    <Textarea id="bio" placeholder="Tell us a bit about yourself" className="min-h-28" />
-                  </div>
-                  <div className="sm:col-span-2 flex items-center justify-end gap-2 pt-2">
-                    <Button type="button" variant="outline">Cancel</Button>
-                    <Button type="submit">Save changes</Button>
-                  </div>
-                </form>
+                <Tabs defaultValue="q3">
+                  <TabsList className="h-9 rounded-md bg-muted/60 p-1">
+                    <TabsTrigger value="q3" className="h-7 px-3">Last 3 months</TabsTrigger>
+                    <TabsTrigger value="q6" className="h-7 px-3">Last 6 months</TabsTrigger>
+                    <TabsTrigger value="q12" className="h-7 px-3">Last 12 months</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="q3">
+                    <div className="mt-4 h-64 rounded-md border bg-gradient-to-br from-accent/40 to-background" />
+                  </TabsContent>
+                  <TabsContent value="q6">
+                    <div className="mt-4 h-64 rounded-md border bg-gradient-to-br from-accent/40 to-background" />
+                  </TabsContent>
+                  <TabsContent value="q12">
+                    <div className="mt-4 h-64 rounded-md border bg-gradient-to-br from-accent/40 to-background" />
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
 
-            <div className="grid gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Preferences</CardTitle>
-                  <CardDescription>Personalize your experience</CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                  <div className="space-y-2">
-                    <Label>Theme</Label>
-                    <Select defaultValue="light" onValueChange={(v) => setTheme(v)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select theme" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="light">Light</SelectItem>
-                        <SelectItem value="dark">Dark</SelectItem>
-                        <SelectItem value="system">System</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <Label>Notifications</Label>
-                      <Toggle aria-label="Toggle notifications">On</Toggle>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Density</span>
-                      <span className="font-medium">Comfortable</span>
-                    </div>
-                    <Slider defaultValue={[60]} max={100} step={10} aria-label="Density" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Shortcuts</CardTitle>
-                  <CardDescription>Quick entry points</CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-2">
-                  <Button variant="outline">Create project</Button>
-                  <Button variant="outline">Invite member</Button>
-                  <Button>Launch workflow</Button>
-                </CardContent>
-              </Card>
-            </div>
+          <section className="mt-6">
+            <Tabs defaultValue="past" className="space-y-4">
+              <TabsList className="h-9 rounded-md bg-muted/60 p-1">
+                <TabsTrigger value="outline" className="h-7 px-3">Outline</TabsTrigger>
+                <TabsTrigger value="past" className="h-7 px-3">Past Performance</TabsTrigger>
+                <TabsTrigger value="people" className="h-7 px-3">Key Personnel</TabsTrigger>
+                <TabsTrigger value="docs" className="h-7 px-3">Focus Documents</TabsTrigger>
+              </TabsList>
+            </Tabs>
           </section>
+
+            
+          </section>
+
+          
+
+          <section className="mt-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Columns</CardTitle>
+                <CardDescription>Manage table data</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto rounded-lg border">
+                  <table className="min-w-full text-sm">
+                    <thead>
+                      <tr className="bg-muted/50 text-left">
+                        <th className="h-10 px-4 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Columns</th>
+                        <th className="h-10 px-4 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Status</th>
+                        <th className="h-10 px-4 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Header</th>
+                        <th className="h-10 px-4 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Section Type</th>
+                        <th className="h-10 px-4 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Target</th>
+                        <th className="h-10 px-4 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Limit</th>
+                        <th className="h-10 px-4 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Reviewer</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b odd:bg-background even:bg-muted/20 hover:bg-muted/40">
+                        <td className="h-12 px-4 align-middle">Engagement</td>
+                        <td className="h-12 px-4 align-middle">Active</td>
+                        <td className="h-12 px-4 align-middle">Yes</td>
+                        <td className="h-12 px-4 align-middle">Metric</td>
+                        <td className="h-12 px-4 align-middle">&gt; 3.0%</td>
+                        <td className="h-12 px-4 align-middle">N/A</td>
+                        <td className="h-12 px-4 align-middle">Morgan</td>
+                      </tr>
+                      <tr className="border-b odd:bg-background even:bg-muted/20 hover:bg-muted/40">
+                        <td className="h-12 px-4 align-middle">Churn</td>
+                        <td className="h-12 px-4 align-middle">Monitoring</td>
+                        <td className="h-12 px-4 align-middle">Yes</td>
+                        <td className="h-12 px-4 align-middle">Metric</td>
+                        <td className="h-12 px-4 align-middle">&lt; 2.0%</td>
+                        <td className="h-12 px-4 align-middle">N/A</td>
+                        <td className="h-12 px-4 align-middle">Lee</td>
+                      </tr>
+                      <tr className="odd:bg-background even:bg-muted/20 hover:bg-muted/40">
+                        <td className="h-12 px-4 align-middle">Revenue</td>
+                        <td className="h-12 px-4 align-middle">Active</td>
+                        <td className="h-12 px-4 align-middle">Yes</td>
+                        <td className="h-12 px-4 align-middle">Metric</td>
+                        <td className="h-12 px-4 align-middle">$100k+</td>
+                        <td className="h-12 px-4 align-middle">N/A</td>
+                        <td className="h-12 px-4 align-middle">Park</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+                  <span>0 of 68 row(s) selected.</span>
+                  <div className="flex items-center gap-2">
+                    <span>Rows per page</span>
+                    <Input className="h-8 w-16" defaultValue={10} />
+                    <div className="flex items-center gap-1">
+                      <Button variant="ghost" size="sm">Prev</Button>
+                      <span>Page 1 of 7</span>
+                      <Button variant="ghost" size="sm">Next</Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          <footer className="mt-8 flex items-center justify-between border-t pt-6 text-sm text-muted-foreground">
+            <span>© Shadcraft 2025</span>
+            <div className="flex items-center gap-4">
+              <a href="#">Docs</a>
+              <a href="#">Website</a>
+              <a href="#">Support</a>
+            </div>
+          </footer>
         </main>
       </div>
     </div>
@@ -139,7 +172,12 @@ function KpiCard({ title, value, delta }: { title: string; value: string; delta:
         <CardTitle className="text-2xl">{value}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-xs text-muted-foreground">{delta}</div>
+        {(() => {
+          const isNegative = delta.trim().startsWith('-')
+          return (
+            <div className={`text-xs ${isNegative ? 'text-rose-600' : 'text-emerald-600'}`}>{delta}</div>
+          )
+        })()}
       </CardContent>
     </Card>
   )

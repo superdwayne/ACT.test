@@ -33,8 +33,7 @@ export default function LoginPage() {
     <div className="grid min-h-screen grid-cols-1 md:grid-cols-2">
       <aside className="hidden md:flex flex-col justify-between border-r bg-card p-8">
         <div>
-          
-
+        
         </div>
         <img src="https://iqyffnahgizvrwkpdcxk.supabase.co/storage/v1/object/public/brand-logos/0.08844084661176699.png" alt="ACT 2.0"  />
         

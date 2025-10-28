@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 type ConversationContextValue = {
-  containerRef: React.RefObject<HTMLDivElement>
+  containerRef: React.RefObject<HTMLDivElement | null>
   atBottom: boolean
   scrollToBottom: () => void
 }
@@ -90,5 +90,4 @@ export function ConversationScrollButton({ className, ...props }: React.Componen
     </div>
   )
 }
-
 
