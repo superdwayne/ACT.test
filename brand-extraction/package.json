@@ -1,0 +1,16 @@
+{
+  "name": "brand-extraction",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test-brand-extraction": "tsx test-brand-extraction.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.45",
+    "ai": "^5.0.93",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "tsx": "^3.12.6"
+  }
+}

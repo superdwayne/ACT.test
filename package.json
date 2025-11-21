@@ -1,5 +1,24 @@
 {
+  "name": "act-monorepo",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend_next",
+    "brand-extraction",
+    "brands/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "supabase": "supabase",
+    "brand-extraction": "npm run test-brand-extraction --workspace brand-extraction"
+  },
   "dependencies": {
     "@radix-ui/react-slider": "^1.3.6"
+  },
+  "devDependencies": {
+    "supabase": "^2.54.11"
   }
 }

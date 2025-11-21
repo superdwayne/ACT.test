@@ -13,16 +13,23 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.45",
     "@ai-sdk/openai": "^2.0.53",
+    "@supabase/supabase-js": "^2.47.6",
     "ai": "^5.0.80",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "pdf-parse": "^2.4.5",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.4",
+    "@types/multer": "^1.4.13",
     "@types/node": "^24.9.1",
+    "@types/pdf-parse": "^1.1.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   }

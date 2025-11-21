@@ -1,0 +1,16 @@
+{
+  "name": "@act/acme-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "BRAND_ID=acme next dev",
+    "build": "BRAND_ID=acme next build",
+    "start": "BRAND_ID=acme next start"
+  },
+  "dependencies": {
+    "@act/tenant-config": "file:../../packages/tenant-config",
+    "next": "16.0.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  }
+}
