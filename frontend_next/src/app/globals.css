@@ -474,11 +474,31 @@
   --sidebar-ring: var(--color-colors-dark-sidebar-ring);
 }
 
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+  @media (width >= 1400px) {
+    max-width: 1220px;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .max-w-160 {
+    max-width: 40rem;
+  }
+  .max-w-76 {
+    max-width: 19rem;
+  }
+  .max-w-56 {
+    max-width: 14rem;
   }
 }

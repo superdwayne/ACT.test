@@ -434,7 +434,7 @@ export default function BrandVisualsPage() {
                         <div>
                           <p className="text-xs text-slate-400 mb-1">Tone Attributes</p>
                           <div className="flex flex-wrap gap-1">
-                            {extractionResult.voice_and_tone?.tone_attributes?.map((attr, i) => (
+                            {extractionResult.voice_and_tone?.tone_attributes?.map((attr: string, i: number) => (
                               <Badge key={i} variant="outline" className="text-xs">{attr}</Badge>
                             ))}
                           </div>
@@ -453,7 +453,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-1">Example Phrases</p>
                             <ul className="list-disc list-inside space-y-1">
-                              {extractionResult.voice_and_tone.example_phrases.map((phrase, i) => (
+                              {extractionResult.voice_and_tone.example_phrases.map((phrase: string, i: number) => (
                                 <li key={i} className="text-slate-300">"{phrase}"</li>
                               ))}
                             </ul>
@@ -463,7 +463,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-1">Vocabulary Preferences</p>
                             <div className="flex flex-wrap gap-1">
-                              {extractionResult.voice_and_tone.vocabulary_preferences.map((word, i) => (
+                              {extractionResult.voice_and_tone.vocabulary_preferences.map((word: string, i: number) => (
                                 <Badge key={i} variant="outline" className="text-xs text-emerald-300">{word}</Badge>
                               ))}
                             </div>
@@ -473,7 +473,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-1">Forbidden Words</p>
                             <div className="flex flex-wrap gap-1">
-                              {extractionResult.voice_and_tone.forbidden_words.map((word, i) => (
+                              {extractionResult.voice_and_tone.forbidden_words.map((word: string, i: number) => (
                                 <Badge key={i} variant="outline" className="text-xs text-red-400">{word}</Badge>
                               ))}
                             </div>
@@ -483,7 +483,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-1">Tone Examples</p>
                             <ul className="list-disc list-inside space-y-1 text-xs">
-                              {extractionResult.voice_and_tone.tone_examples.map((example, i) => (
+                              {extractionResult.voice_and_tone.tone_examples.map((example: string, i: number) => (
                                 <li key={i} className="text-slate-300">{example}</li>
                               ))}
                             </ul>
@@ -509,7 +509,7 @@ export default function BrandVisualsPage() {
                             <div>
                               <p className="text-xs text-slate-500 mb-1">Primary Colors</p>
                               <div className="space-y-2">
-                                {extractionResult.visual_identity?.color_palette?.primary_colors?.map((color, i) => (
+                                {extractionResult.visual_identity?.color_palette?.primary_colors?.map((color: any, i: number) => (
                                   <div key={i} className="flex items-center gap-2 p-2 bg-slate-800/50 rounded">
                                     <div 
                                       className="w-8 h-8 rounded border border-slate-600" 
@@ -529,7 +529,7 @@ export default function BrandVisualsPage() {
                               <div>
                                 <p className="text-xs text-slate-500 mb-1">Secondary Colors</p>
                                 <div className="space-y-2">
-                                  {extractionResult.visual_identity.color_palette.secondary_colors.map((color, i) => (
+                                  {extractionResult.visual_identity.color_palette.secondary_colors.map((color: any, i: number) => (
                                     <div key={i} className="flex items-center gap-2 p-2 bg-slate-800/50 rounded">
                                       <div 
                                         className="w-8 h-8 rounded border border-slate-600" 
@@ -662,7 +662,7 @@ export default function BrandVisualsPage() {
                               <div>
                                 <p className="text-xs text-slate-500 mb-1">Placement Rules</p>
                                 <ul className="list-disc list-inside text-xs text-slate-400 space-y-1">
-                                  {extractionResult.visual_identity.logo.placement_rules.map((rule, i) => (
+                                  {extractionResult.visual_identity.logo.placement_rules.map((rule: string, i: number) => (
                                     <li key={i}>{rule}</li>
                                   ))}
                                 </ul>
@@ -699,7 +699,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-1">Core Values</p>
                             <div className="flex flex-wrap gap-1">
-                              {extractionResult.messaging.core_values.map((value, i) => (
+                              {extractionResult.messaging.core_values.map((value: string, i: number) => (
                                 <Badge key={i} variant="outline" className="text-xs">{value}</Badge>
                               ))}
                             </div>
@@ -709,7 +709,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-1">Key Messages</p>
                             <ul className="list-disc list-inside space-y-1">
-                              {extractionResult.messaging.key_messages.map((msg, i) => (
+                              {extractionResult.messaging.key_messages.map((msg: string, i: number) => (
                                 <li key={i} className="text-slate-300">{msg}</li>
                               ))}
                             </ul>
@@ -719,7 +719,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-1">Taglines</p>
                             <div className="space-y-1">
-                              {extractionResult.messaging.taglines.map((tagline, i) => (
+                              {extractionResult.messaging.taglines.map((tagline: string, i: number) => (
                                 <p key={i} className="text-emerald-300 font-medium">"{tagline}"</p>
                               ))}
                             </div>
@@ -729,7 +729,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-1">Value Propositions</p>
                             <ul className="list-disc list-inside space-y-1">
-                              {extractionResult.messaging.value_propositions.map((prop, i) => (
+                              {extractionResult.messaging.value_propositions.map((prop: string, i: number) => (
                                 <li key={i} className="text-slate-300">{prop}</li>
                               ))}
                             </ul>
@@ -847,7 +847,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-emerald-400 mb-2 font-semibold">✓ Do's</p>
                             <ul className="list-disc list-inside space-y-1 text-xs">
-                              {extractionResult.guidelines.dos.map((doItem, i) => (
+                              {extractionResult.guidelines.dos.map((doItem: string, i: number) => (
                                 <li key={i} className="text-slate-300">{doItem}</li>
                               ))}
                             </ul>
@@ -857,7 +857,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-red-400 mb-2 font-semibold">✗ Don'ts</p>
                             <ul className="list-disc list-inside space-y-1 text-xs">
-                              {extractionResult.guidelines.donts.map((dont, i) => (
+                              {extractionResult.guidelines.donts.map((dont: string, i: number) => (
                                 <li key={i} className="text-slate-300">{dont}</li>
                               ))}
                             </ul>
@@ -867,7 +867,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-2 font-semibold">Brand Personality</p>
                             <div className="flex flex-wrap gap-1">
-                              {extractionResult.guidelines.brand_personality.map((trait, i) => (
+                              {extractionResult.guidelines.brand_personality.map((trait: string, i: number) => (
                                 <Badge key={i} variant="outline" className="text-xs">{trait}</Badge>
                               ))}
                             </div>
@@ -877,7 +877,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-2 font-semibold">Usage Rules</p>
                             <ul className="list-disc list-inside space-y-1 text-xs">
-                              {extractionResult.guidelines.usage_rules.map((rule, i) => (
+                              {extractionResult.guidelines.usage_rules.map((rule: string, i: number) => (
                                 <li key={i} className="text-slate-300">{rule}</li>
                               ))}
                             </ul>
@@ -887,7 +887,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-2 font-semibold">Quality Standards</p>
                             <ul className="list-disc list-inside space-y-1 text-xs">
-                              {extractionResult.guidelines.quality_standards.map((standard, i) => (
+                              {extractionResult.guidelines.quality_standards.map((standard: string, i: number) => (
                                 <li key={i} className="text-slate-300">{standard}</li>
                               ))}
                             </ul>
@@ -897,7 +897,7 @@ export default function BrandVisualsPage() {
                           <div>
                             <p className="text-xs text-slate-400 mb-2 font-semibold">Consistency Requirements</p>
                             <ul className="list-disc list-inside space-y-1 text-xs">
-                              {extractionResult.guidelines.consistency_requirements.map((req, i) => (
+                              {extractionResult.guidelines.consistency_requirements.map((req: string, i: number) => (
                                 <li key={i} className="text-slate-300">{req}</li>
                               ))}
                             </ul>
