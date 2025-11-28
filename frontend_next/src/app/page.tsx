@@ -699,12 +699,16 @@ export default function Home() {
 
                     {/* Other Pages */}
                     <div className="space-y-3">
-                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Other Pages (11)</h3>
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Other Pages (12)</h3>
                       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="/mntn" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Target className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">MNTN Hiking</span>
+                          <Badge variant="secondary" className="ml-auto text-xs">New</Badge>
+                        </a>
                         <a href="/contact" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
                           <Globe className="size-4 text-primary shrink-0" />
                           <span className="font-medium truncate">Contact</span>
-                          <Badge variant="secondary" className="ml-auto text-xs">New</Badge>
                         </a>
                         <a href="/login" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
                           <Users className="size-4 text-primary shrink-0" />
