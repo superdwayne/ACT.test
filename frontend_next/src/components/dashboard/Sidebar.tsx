@@ -1,19 +1,13 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { Bot, LayoutDashboard, MessageSquare, Settings, Shield, Tag, Folder, FileText, Trash2, HelpCircle, Search, Library, ChevronDown, Mail, PlusCircle, FilePlus, Palette, Sparkles } from 'lucide-react'
+import { Bot, LayoutDashboard, MessageSquare, Settings, Shield, Tag, Folder, FileText, Trash2, HelpCircle, Search, Library, ChevronDown, Mail, PlusCircle, FilePlus, Palette, Sparkles, Zap } from 'lucide-react'
 
 const primary = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/lifecycle', label: 'Lifecycle', icon: Folder },
-  { href: '/analytics', label: 'Analytics', icon: Shield },
-  { href: '/projects', label: 'Projects', icon: FileText },
-  { href: '/team', label: 'Team', icon: Bot },
+  { href: '/ai-agents-dashboard', label: 'AI Agents', icon: Sparkles },
 ]
 
 const documents = [
-  { href: '/docs/beta-library', label: 'Beta library', icon: Library },
-  { href: '/docs/reports', label: 'Reports', icon: FileText },
-  { href: '/assistant', label: 'Work Assistant', icon: MessageSquare },
   { href: '/asset-approvals', label: 'Asset approvals', icon: FileText },
   { href: '/brand-visuals', label: 'Brand Visuals', icon: Palette },
   { href: '/brand-settings', label: 'Brand Settings', icon: Sparkles },
@@ -21,8 +15,6 @@ const documents = [
   { href: '/file-manager', label: 'File manager', icon: Folder },
   { href: '/products/create', label: 'Create product', icon: Tag },
   { href: '/tone-of-voice', label: 'Tone of voice', icon: MessageSquare },
-  { href: '/trash', label: 'Trash', icon: Trash2 },
-  { href: '/help', label: 'Help', icon: HelpCircle },
   { href: '/figma-preview', label: 'Figma Preview', icon: FileText },
 ]
 
@@ -72,9 +64,7 @@ export function Sidebar({ className }: { className?: string }) {
       </nav>
       <div className="border-t px-2 py-3">
         <div className="space-y-1">
-          <Link href="/settings" className="flex items-center gap-3 rounded-md px-2 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"><Settings className="size-4" /> <span>Settings</span></Link>
-          <Link href="/help" className="flex items-center gap-3 rounded-md px-2 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"><HelpCircle className="size-4" /> <span>Get help</span></Link>
-          <Link href="/search" className="flex items-center gap-3 rounded-md px-2 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"><Search className="size-4" /> <span>Search</span></Link>
+          <Link href="/brand-settings" className="flex items-center gap-3 rounded-md px-2 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"><Settings className="size-4" /> <span>Settings</span></Link>
         </div>
       </div>
     </aside>

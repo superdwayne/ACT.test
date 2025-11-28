@@ -504,6 +504,245 @@ export default function Home() {
               </header>
 
               <div className="space-y-8 py-6">
+                {/* All Pages Navigation */}
+                <Card className="rounded-3xl border-border shadow-md bg-gradient-to-br from-primary/5 to-primary/10">
+                  <CardHeader className="border-b border-border pb-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <span className="flex size-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                          <Compass className="size-5" />
+                        </span>
+                        <div>
+                          <CardTitle className="text-xl">All Pages</CardTitle>
+                          <CardDescription>Browse all 43 pages in this application</CardDescription>
+                        </div>
+                      </div>
+                      <Badge variant="secondary">43 Pages</Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-6 space-y-6">
+                    {/* AI Agents Section */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">AI Agents (14)</h3>
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="/ai-agents-simple" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Simple Selection</span>
+                          <Badge variant="secondary" className="ml-auto text-xs">New</Badge>
+                        </a>
+                        <a href="/ai-agents-selection-v2" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Layers className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Selection V2</span>
+                        </a>
+                        <a href="/ai-agents-showcase-v2" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Globe className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Showcase V2</span>
+                        </a>
+                        <a href="/ai-agents-shadcn-blocks" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Layers className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Shadcn Blocks</span>
+                        </a>
+                        <a href="/ai-agents-all-versions" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <BarChart3 className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">All Versions</span>
+                        </a>
+                        <a href="/ai-agent-selection" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Target className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Agent Selection</span>
+                        </a>
+                        <a href="/ai-agent-selection-demo" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Target className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Selection Demo</span>
+                        </a>
+                        <a href="/ai-agents-demo" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Agents Demo</span>
+                        </a>
+                        <a href="/ai-agents-showcase" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Globe className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Showcase</span>
+                        </a>
+                        <a href="/ai-agents-v2" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Layers className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Agents V2</span>
+                        </a>
+                        <a href="/ai-agent-comparison" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <BarChart3 className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Comparison</span>
+                        </a>
+                        <a href="/AIagents-test" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Target className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Agents Test</span>
+                        </a>
+                        <a href="/ai-agents-nav" className="group flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/5 p-3 text-sm transition hover:border-primary hover:shadow-md">
+                          <Compass className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">All AI Agents</span>
+                          <ArrowRight className="ml-auto size-4 text-primary" />
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Chat & Communication */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Chat & Communication (6)</h3>
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="/chat" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Chat</span>
+                        </a>
+                        <a href="/chats" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Chats</span>
+                        </a>
+                        <a href="/chats-again" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Chats Again</span>
+                        </a>
+                        <a href="/chats-again-please" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Chats Again Please</span>
+                        </a>
+                        <a href="/square-chat" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Square Chat</span>
+                        </a>
+                        <a href="/square-chat2" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Square Chat 2</span>
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Dashboards */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Dashboards (3)</h3>
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="/dashboard" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <BarChart3 className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Dashboard</span>
+                        </a>
+                        <a href="/dashboard-dark" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <BarChart3 className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Dashboard Dark</span>
+                        </a>
+                        <a href="/dashboard-light" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <BarChart3 className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Dashboard Light</span>
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Brand & Content */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Brand & Content (3)</h3>
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="/brand-settings" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Building className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Brand Settings</span>
+                        </a>
+                        <a href="/brand-visuals" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Building className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Brand Visuals</span>
+                        </a>
+                        <a href="/tone-of-voice" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Tone of Voice</span>
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Figma & Design */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Figma & Design (3)</h3>
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="/figma-documents" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <FileStack className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Figma Documents</span>
+                        </a>
+                        <a href="/figma-preview" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <FileStack className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Figma Preview</span>
+                        </a>
+                        <a href="/figma-untitled" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <FileStack className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Figma Untitled</span>
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Products & E-commerce */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Products & E-commerce (4)</h3>
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="/add-product-form" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Plus className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Add Product Form</span>
+                        </a>
+                        <a href="/products/create" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Plus className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Create Product</span>
+                        </a>
+                        <a href="/product-configurator" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <SettingsIcon className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Product Configurator</span>
+                        </a>
+                        <a href="/asset-approvals" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <FileStack className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Asset Approvals</span>
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Other Pages */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Other Pages (11)</h3>
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="/contact" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Globe className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Contact</span>
+                          <Badge variant="secondary" className="ml-auto text-xs">New</Badge>
+                        </a>
+                        <a href="/login" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Users className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Login</span>
+                        </a>
+                        <a href="/calendar-app" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Activity className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Calendar App</span>
+                        </a>
+                        <a href="/file-manager" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <FileStack className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">File Manager</span>
+                        </a>
+                        <a href="/social" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Users className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Social</span>
+                        </a>
+                        <a href="/mainline-blocks" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Layers className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Mainline Blocks</span>
+                        </a>
+                        <a href="/mainline-demo" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Layers className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Mainline Demo</span>
+                        </a>
+                        <a href="/obra" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Obra</span>
+                        </a>
+                        <a href="/chant-v3" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Chant V3</span>
+                        </a>
+                        <a href="/supabase-test" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Activity className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">Supabase Test</span>
+                        </a>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                   {metrics.map((metric) => (
                     <Card key={metric.id} className="rounded-2xl border-border shadow-sm">
