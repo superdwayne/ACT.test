@@ -87,23 +87,23 @@ export default function Mntn() {
   return (
     <div className="bg-[#0B1D26] text-white" style={{ fontFamily: '"Gilroy", sans-serif' }}>
       {/* Side Social Links */}
-      <aside className="fixed left-8 top-1/2 z-20 hidden -translate-y-1/2 transform flex-col items-center gap-6 lg:flex">
+      <aside className="fixed left-8 top-1/2 z-20 hidden -translate-y-1/2 transform flex-col items-center gap-6 lg:flex animate-in fade-in slide-in-from-left-8 duration-700">
         <span className="[writing-mode:vertical-rl] font-bold">Follow us</span>
-        <Link href="#" aria-label="Instagram">
+        <Link href="#" aria-label="Instagram" className="transition-all duration-300 hover:scale-110 hover:text-[#FBD784]">
           <Instagram className="size-6" />
         </Link>
-        <Link href="#" aria-label="Twitter">
+        <Link href="#" aria-label="Twitter" className="transition-all duration-300 hover:scale-110 hover:text-[#FBD784]">
           <Twitter className="size-6" />
         </Link>
       </aside>
 
       {/* Side Navigation */}
-      <aside className="fixed right-8 top-1/2 z-20 hidden -translate-y-1/2 transform flex-row items-center gap-8 lg:flex">
+      <aside className="fixed right-8 top-1/2 z-20 hidden -translate-y-1/2 transform flex-row items-center gap-8 lg:flex animate-in fade-in slide-in-from-right-8 duration-700">
         <div className="flex flex-col items-end gap-10 font-bold text-lg">
-          <Link href="#start" className="hover:text-[#FBD784]">Start</Link>
-          <Link href="#01" className="hover:text-[#FBD784]">01</Link>
-          <Link href="#02" className="hover:text-[#FBD784]">02</Link>
-          <Link href="#03" className="hover:text-[#FBD784]">03</Link>
+          <Link href="#start" className="transition-all duration-300 hover:text-[#FBD784] hover:translate-x-[-4px]">Start</Link>
+          <Link href="#01" className="transition-all duration-300 hover:text-[#FBD784] hover:translate-x-[-4px]">01</Link>
+          <Link href="#02" className="transition-all duration-300 hover:text-[#FBD784] hover:translate-x-[-4px]">02</Link>
+          <Link href="#03" className="transition-all duration-300 hover:text-[#FBD784] hover:translate-x-[-4px]">03</Link>
         </div>
         <div className="h-60 w-1 bg-white/50 relative">
           <div className="w-full h-1/4 bg-white absolute top-1/4"></div>
@@ -117,14 +117,14 @@ export default function Mntn() {
             <Logo />
             <nav className="hidden items-center gap-10 text-lg font-bold md:flex">
               {HEADER_LINKS.map((link) => (
-                <Link key={link.label} href={link.href} className="hover:text-[#FBD784]">
+                <Link key={link.label} href={link.href} className="transition-all duration-300 hover:text-[#FBD784] hover:translate-y-[-2px]">
                   {link.label}
                 </Link>
               ))}
             </nav>
             <div className="hidden items-center gap-3 text-lg font-bold md:flex">
-              <User className="size-6" />
-              <Link href="#" className="hover:text-[#FBD784]">Account</Link>
+              <User className="size-6 transition-transform duration-300 hover:rotate-12" />
+              <Link href="#" className="transition-all duration-300 hover:text-[#FBD784] hover:translate-y-[-2px]">Account</Link>
             </div>
             <div className="md:hidden">
               <Sheet>
@@ -164,17 +164,17 @@ export default function Mntn() {
           >
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B1D26] via-transparent to-transparent"></div>
             <div className="z-10 container mx-auto flex max-w-4xl flex-col items-start gap-8 text-left">
-              <div className="flex items-center gap-4">
-                <hr className="w-16 border-[#FBD784]" />
+              <div className="flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <hr className="w-16 border-[#FBD784] animate-in slide-in-from-left-8 duration-500" />
                 <p className="font-extrabold uppercase tracking-[0.3em] text-[#FBD784]">
                   A Hiking guide
                 </p>
               </div>
-              <h1 className="text-5xl font-semibold md:text-7xl lg:text-8xl" style={{ fontFamily: '"Chronicle Display", serif', lineHeight: '1.1' }}>
+              <h1 className="text-5xl font-semibold md:text-7xl lg:text-8xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200" style={{ fontFamily: '"Chronicle Display", serif', lineHeight: '1.1' }}>
                 Be prepared for the Mountains and beyond!
               </h1>
-              <a href="#equipment" className="flex items-center gap-4 font-bold text-lg">
-                scroll down <ArrowDown className="size-6" />
+              <a href="#equipment" className="flex items-center gap-4 font-bold text-lg animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500 transition-all hover:gap-6 group">
+                scroll down <ArrowDown className="size-6 transition-transform duration-300 group-hover:translate-y-1" />
               </a>
             </div>
           </section>
@@ -186,23 +186,23 @@ export default function Mntn() {
                 <div className="absolute -top-16 left-0 -z-0 select-none text-[12rem] md:text-[15rem] font-bold text-white/10" aria-hidden="true">
                   {section.number}
                 </div>
-                <div className="order-2 lg:order-1 flex max-w-xl flex-col items-start gap-7">
+                <div className="order-2 lg:order-1 flex max-w-xl flex-col items-start gap-7 animate-in fade-in slide-in-from-left-8 duration-700">
                   <div className="flex items-center gap-4">
-                    <hr className="w-16 border-[#FBD784]" />
+                    <hr className="w-16 border-[#FBD784] transition-all duration-500 hover:w-24" />
                     <p className="font-extrabold uppercase tracking-[0.3em] text-[#FBD784]">
                       {section.tagline}
                     </p>
                   </div>
-                  <h2 className="text-4xl font-semibold md:text-5xl lg:text-6xl" style={{ fontFamily: '"Chronicle Display", serif' }}>
+                  <h2 className="text-4xl font-semibold md:text-5xl lg:text-6xl transition-colors duration-300 hover:text-[#FBD784]" style={{ fontFamily: '"Chronicle Display", serif' }}>
                     {section.title}
                   </h2>
                   <p className="text-lg font-bold leading-relaxed">{section.description}</p>
-                  <Link href="#" className="flex items-center gap-4 font-bold text-[#FBD784]">
-                    read more <ArrowDown className="size-6 rotate-[-90deg]" />
+                  <Link href="#" className="flex items-center gap-4 font-bold text-[#FBD784] transition-all duration-300 hover:gap-6 group">
+                    read more <ArrowDown className="size-6 rotate-[-90deg] transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </div>
-                <div className="order-1 lg:order-2 h-96 w-full lg:h-[720px]">
-                  <img src={carouselImages[index].src} alt={carouselImages[index].alt} className="h-full w-full object-cover rounded-lg"/>
+                <div className="order-1 lg:order-2 h-96 w-full lg:h-[720px] animate-in fade-in slide-in-from-right-8 duration-700">
+                  <img src={carouselImages[index].src} alt={carouselImages[index].alt} className="h-full w-full object-cover rounded-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl"/>
                 </div>
               </section>
             ))}
@@ -224,7 +224,7 @@ export default function Mntn() {
                 <ul className="flex flex-col gap-4 text-lg font-medium">
                   {list.links.map((link) => (
                     <li key={link.label}>
-                      <Link href={link.href} className="hover:text-[#FBD784]">{link.label}</Link>
+                      <Link href={link.href} className="transition-all duration-300 hover:text-[#FBD784] hover:translate-x-2 inline-block">{link.label}</Link>
                     </li>
                   ))}
                 </ul>
