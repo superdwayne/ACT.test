@@ -17,6 +17,7 @@ import {
   Globe,
   GripVertical,
   Headphones,
+  Laptop,
   Layers,
   LineChart,
   ListFilter,
@@ -699,12 +700,16 @@ export default function Home() {
 
                     {/* Other Pages */}
                     <div className="space-y-3">
-                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Other Pages (13)</h3>
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Other Pages (14)</h3>
                       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="/macbook" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
+                          <Laptop className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">MacBook Pro</span>
+                          <Badge variant="secondary" className="ml-auto text-xs">New</Badge>
+                        </a>
                         <a href="/fashion" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
                           <Sparkles className="size-4 text-primary shrink-0" />
                           <span className="font-medium truncate">Fashion Store</span>
-                          <Badge variant="secondary" className="ml-auto text-xs">New</Badge>
                         </a>
                         <a href="/mntn" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
                           <Target className="size-4 text-primary shrink-0" />
