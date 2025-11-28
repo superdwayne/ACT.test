@@ -48,7 +48,7 @@ const productCategories = [
   },
 ];
 
-export function Desktop17() {
+export default function FashionPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-background font-sans">
       <header className="sticky top-4 z-50 mx-auto w-full max-w-7xl px-4">
@@ -215,5 +215,3 @@ export function Desktop17() {
     </div>
   );
 }
-
-export default Desktop17;
