@@ -25,6 +25,13 @@ const HEADER_LINKS = [
   { href: "#blog", label: "Blog" },
 ];
 
+const carouselImages = [
+  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80", alt: "Mountain landscape at sunrise" },
+  { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80", alt: "Rocky mountain peak" },
+  { src: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80", alt: "Hiker on mountain trail" },
+  { src: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800&q=80", alt: "Mountain valley view" },
+];
+
 const CONTENT_SECTIONS = [
   {
     number: "01",
@@ -153,7 +160,7 @@ export default function Mntn() {
           <section
             id="start"
             className="relative flex min-h-screen items-center justify-center bg-cover bg-center bg-no-repeat px-4"
-            style={{ backgroundImage: "url('https://ui.shadcn.com/placeholder.svg')" }}
+            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80')" }}
           >
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B1D26] via-transparent to-transparent"></div>
             <div className="z-10 container mx-auto flex max-w-4xl flex-col items-start gap-8 text-left">
@@ -195,7 +202,7 @@ export default function Mntn() {
                   </Link>
                 </div>
                 <div className="order-1 lg:order-2 h-96 w-full lg:h-[720px]">
-                  <img src="https://ui.shadcn.com/placeholder.svg" alt={section.title} className="h-full w-full object-cover rounded-lg"/>
+                  <img src={carouselImages[index].src} alt={carouselImages[index].alt} className="h-full w-full object-cover rounded-lg"/>
                 </div>
               </section>
             ))}
