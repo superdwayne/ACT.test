@@ -523,12 +523,16 @@ export default function Home() {
                   <CardContent className="pt-6 space-y-6">
                     {/* AI Agents Section */}
                     <div className="space-y-3">
-                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">AI Agents (14)</h3>
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">AI Agents (15)</h3>
                       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="/ai-agents" className="group flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/5 p-3 text-sm transition hover:border-primary hover:shadow-md">
+                          <Sparkles className="size-4 text-primary shrink-0" />
+                          <span className="font-medium truncate">AI Agents Catalog</span>
+                          <Badge variant="secondary" className="ml-auto text-xs">New</Badge>
+                        </a>
                         <a href="/ai-agents-simple" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
                           <Sparkles className="size-4 text-primary shrink-0" />
                           <span className="font-medium truncate">Simple Selection</span>
-                          <Badge variant="secondary" className="ml-auto text-xs">New</Badge>
                         </a>
                         <a href="/ai-agents-selection-v2" className="group flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm transition hover:border-primary/40 hover:shadow-md">
                           <Layers className="size-4 text-primary shrink-0" />
