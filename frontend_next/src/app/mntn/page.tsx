@@ -17,6 +17,11 @@ import {
   Send,
   MessageCircle,
   Bot,
+  Sparkles,
+  Copy,
+  Download,
+  RefreshCw,
+  Image as ImageIcon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -27,13 +32,16 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card } from "@/components/ui/card";
 
 const HEADER_LINKS = [
   { href: "#equipment", label: "Equipment" },
   { href: "#about-us", label: "About us" },
   { href: "#blog", label: "Blog" },
   { href: "/ai-chat", label: "AI Chat" },
+  { href: "#social-generator", label: "Social Media" },
 ];
 
 const carouselImages = [
@@ -544,6 +552,176 @@ export default function MNTNPage() {
                       <p className="text-xs text-white/40 mt-2">Press Enter to send • Powered by MNTN AI</p>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Social Media Generator Section */}
+          <section id="social-generator" className="relative py-32 px-4 bg-gradient-to-b from-[#0B1D26]/95 to-[#0B1D26]">
+            <div className="container mx-auto max-w-6xl">
+              <div className="text-center mb-16 animate-in fade-in duration-700">
+                <div className="flex items-center justify-center gap-4 mb-6">
+                  <hr className="w-16 border-[#FBD784]" />
+                  <p className="font-extrabold uppercase tracking-[0.3em] text-[#FBD784]">
+                    AI Powered
+                  </p>
+                  <hr className="w-16 border-[#FBD784]" />
+                </div>
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-6" style={{ fontFamily: '"Chronicle Display", serif' }}>
+                  Social Media Generator
+                </h2>
+                <p className="text-lg font-bold leading-relaxed text-white/70 max-w-2xl mx-auto">
+                  Create engaging social media posts for your hiking adventures with AI assistance
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Input Section */}
+                <Card className="bg-white/5 border-white/10 p-8">
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-bold uppercase tracking-wider text-[#FBD784] mb-3">
+                        Adventure Topic
+                      </label>
+                      <Input
+                        placeholder="e.g., Summit of Mount Rainier, Backpacking in Yosemite..."
+                        className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-[#FBD784]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold uppercase tracking-wider text-[#FBD784] mb-3">
+                        Platform
+                      </label>
+                      <div className="grid grid-cols-3 gap-3">
+                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                          <Instagram className="size-4 mr-2" />
+                          Instagram
+                        </Button>
+                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                          <Twitter className="size-4 mr-2" />
+                          Twitter
+                        </Button>
+                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                          <MessageCircle className="size-4 mr-2" />
+                          Facebook
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold uppercase tracking-wider text-[#FBD784] mb-3">
+                        Tone
+                      </label>
+                      <div className="grid grid-cols-2 gap-3">
+                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                          Inspirational
+                        </Button>
+                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                          Educational
+                        </Button>
+                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                          Adventurous
+                        </Button>
+                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                          Casual
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold uppercase tracking-wider text-[#FBD784] mb-3">
+                        Additional Details (Optional)
+                      </label>
+                      <Textarea
+                        placeholder="Add specific details, hashtags, or mentions..."
+                        className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-[#FBD784] min-h-[100px]"
+                      />
+                    </div>
+
+                    <Button className="w-full bg-[#FBD784] text-[#0B1D26] hover:bg-[#FBD784]/90 font-bold py-6">
+                      <Sparkles className="size-5 mr-2" />
+                      Generate Post
+                    </Button>
+                  </div>
+                </Card>
+
+                {/* Output Section */}
+                <Card className="bg-white/5 border-white/10 p-8">
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-bold text-[#FBD784]">Generated Content</h3>
+                      <div className="flex gap-2">
+                        <Button size="icon" variant="ghost" className="hover:bg-white/10">
+                          <RefreshCw className="size-4" />
+                        </Button>
+                        <Button size="icon" variant="ghost" className="hover:bg-white/10">
+                          <Copy className="size-4" />
+                        </Button>
+                        <Button size="icon" variant="ghost" className="hover:bg-white/10">
+                          <Download className="size-4" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-6 min-h-[300px]">
+                      <div className="text-center text-white/40 py-12">
+                        <Sparkles className="size-12 mx-auto mb-4 opacity-50" />
+                        <p className="font-medium">Your generated post will appear here</p>
+                        <p className="text-sm mt-2">Fill in the details and click Generate Post</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 text-sm text-white/60">
+                        <Check className="size-4 text-[#FBD784]" />
+                        <span>Optimized for engagement</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-white/60">
+                        <Check className="size-4 text-[#FBD784]" />
+                        <span>Includes relevant hashtags</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-white/60">
+                        <Check className="size-4 text-[#FBD784]" />
+                        <span>Platform-specific formatting</span>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Example Posts */}
+              <div className="mt-16">
+                <h3 className="text-2xl font-bold text-center mb-8 text-[#FBD784]">Example Posts</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <Card className="bg-white/5 border-white/10 p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Instagram className="size-5 text-[#FBD784]" />
+                      <span className="font-bold text-sm">Instagram</span>
+                    </div>
+                    <p className="text-sm leading-relaxed text-white/80">
+                      "Summit sunrise at 14,000ft 🏔️✨ The climb was tough, but this view made every step worth it. Remember: the mountain doesn't care about your excuses. #MountainLife #HikingAdventures #SummitViews"
+                    </p>
+                  </Card>
+                  <Card className="bg-white/5 border-white/10 p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Twitter className="size-5 text-[#FBD784]" />
+                      <span className="font-bold text-sm">Twitter</span>
+                    </div>
+                    <p className="text-sm leading-relaxed text-white/80">
+                      "Just completed a 3-day backpacking loop through the Rockies. Trail conditions: excellent. Wildlife encounters: 2 elk, 1 marmot. Blisters: worth it. 🥾🏔️ #Backpacking #GetOutside"
+                    </p>
+                  </Card>
+                  <Card className="bg-white/5 border-white/10 p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <MessageCircle className="size-5 text-[#FBD784]" />
+                      <span className="font-bold text-sm">Facebook</span>
+                    </div>
+                    <p className="text-sm leading-relaxed text-white/80">
+                      "Trail Report: Eagle Peak Loop is absolutely stunning right now! Wildflowers in full bloom, perfect weather, and minimal crowds. Highly recommend for intermediate hikers. Total distance: 8.5 miles. Bring plenty of water! 💧🌸"
+                    </p>
+                  </Card>
                 </div>
               </div>
             </div>
