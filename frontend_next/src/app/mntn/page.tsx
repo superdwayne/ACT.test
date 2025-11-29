@@ -302,12 +302,70 @@ export default function MNTNPage() {
         casual: "friendly and relatable, like talking to a friend"
       };
 
+      // Build brand-aware system prompt
+      let brandContext = '';
+      if (extractedBrand) {
+        brandContext = '\n\n**BRAND IDENTITY - USE THESE ELEMENTS:**\n';
+        
+        // Add brand colors
+        if (extractedBrand.theme) {
+          brandContext += '\nBrand Colors (reference these in your post):\n';
+          if (extractedBrand.theme.primaryColor) brandContext += `- Primary: ${extractedBrand.theme.primaryColor}\n`;
+          if (extractedBrand.theme.secondaryColor) brandContext += `- Secondary: ${extractedBrand.theme.secondaryColor}\n`;
+          if (extractedBrand.theme.accentColor) brandContext += `- Accent: ${extractedBrand.theme.accentColor}\n`;
+        }
+        
+        // Add typography
+        if (extractedBrand.typography) {
+          brandContext += '\nBrand Typography:\n';
+          if (extractedBrand.typography.fontFamily) brandContext += `- Font: ${extractedBrand.typography.fontFamily}\n`;
+          if (extractedBrand.typography.headingFont) brandContext += `- Heading Font: ${extractedBrand.typography.headingFont}\n`;
+        }
+        
+        // Add brand tone
+        if (extractedBrand.tone) {
+          brandContext += `\nBrand Tone: ${extractedBrand.tone}\n`;
+        }
+        
+        // Add voice and tone if available
+        if (extractedBrand.voice_and_tone) {
+          if (extractedBrand.voice_and_tone.primary_voice) {
+            brandContext += `\nBrand Voice: ${extractedBrand.voice_and_tone.primary_voice}\n`;
+          }
+          if (extractedBrand.voice_and_tone.tone_attributes) {
+            brandContext += `Tone Attributes: ${extractedBrand.voice_and_tone.tone_attributes.join(', ')}\n`;
+          }
+        }
+        
+        // Add social media guidelines if available
+        if (extractedBrand.social_media?.platform_guidelines?.[socialPlatform]) {
+          const platformGuide = extractedBrand.social_media.platform_guidelines[socialPlatform];
+          brandContext += `\n${socialPlatform.toUpperCase()} Brand Guidelines:\n`;
+          if (platformGuide.tone_adjustments) brandContext += `- Tone: ${platformGuide.tone_adjustments}\n`;
+          if (platformGuide.hashtag_strategy) brandContext += `- Hashtags: ${platformGuide.hashtag_strategy}\n`;
+          if (platformGuide.content_types) brandContext += `- Content Types: ${platformGuide.content_types.join(', ')}\n`;
+        }
+        
+        // Add messaging if available
+        if (extractedBrand.messaging) {
+          if (extractedBrand.messaging.taglines && extractedBrand.messaging.taglines.length > 0) {
+            brandContext += `\nBrand Taglines (consider using): ${extractedBrand.messaging.taglines.join(', ')}\n`;
+          }
+          if (extractedBrand.messaging.key_messages && extractedBrand.messaging.key_messages.length > 0) {
+            brandContext += `\nKey Messages: ${extractedBrand.messaging.key_messages.join(', ')}\n`;
+          }
+        }
+        
+        brandContext += '\n**IMPORTANT**: Stay true to this brand identity in your post. Match the tone, voice, and style.';
+      }
+
       const systemPrompt = `You are a social media content creator for MNTN, a hiking and outdoor adventure brand.
 Create an engaging ${socialPlatform} post about: "${socialTopic}"
 
 Platform guidelines: ${platformGuidelines[socialPlatform as keyof typeof platformGuidelines]}
 Tone: ${toneDescriptions[socialTone as keyof typeof toneDescriptions]}
 ${socialDetails ? `Additional context: ${socialDetails}` : ''}
+${brandContext}
 
 Make it authentic, engaging, and optimized for ${socialPlatform}. Include relevant emojis and hashtags.`;
 
@@ -376,9 +434,35 @@ Make it authentic, engaging, and optimized for ${socialPlatform}. Include releva
     setIsGeneratingImage(true);
 
     try {
+      // Build brand-aware image prompt
+      let brandImageContext = '';
+      if (extractedBrand) {
+        if (extractedBrand.theme) {
+          brandImageContext += '\nBrand Color Palette to incorporate:';
+          if (extractedBrand.theme.primaryColor) brandImageContext += ` ${extractedBrand.theme.primaryColor}`;
+          if (extractedBrand.theme.secondaryColor) brandImageContext += `, ${extractedBrand.theme.secondaryColor}`;
+          if (extractedBrand.theme.accentColor) brandImageContext += `, ${extractedBrand.theme.accentColor}`;
+        }
+        
+        if (extractedBrand.visual_identity?.imagery_style) {
+          if (extractedBrand.visual_identity.imagery_style.photography_guidelines) {
+            brandImageContext += `\nPhotography Style: ${extractedBrand.visual_identity.imagery_style.photography_guidelines}`;
+          }
+          if (extractedBrand.visual_identity.imagery_style.photography_subjects && 
+              extractedBrand.visual_identity.imagery_style.photography_subjects.length > 0) {
+            brandImageContext += `\nSubjects: ${extractedBrand.visual_identity.imagery_style.photography_subjects.join(', ')}`;
+          }
+        }
+        
+        if (extractedBrand.tone) {
+          brandImageContext += `\nBrand Mood: ${extractedBrand.tone}`;
+        }
+      }
+
       const imagePrompt = `Create a stunning, professional photograph for a social media post about: ${socialTopic}. 
 Style: Outdoor adventure photography, dramatic lighting, epic landscape. 
 ${socialDetails ? `Additional context: ${socialDetails}` : ''}
+${brandImageContext}
 Make it inspiring and Instagram-worthy for a hiking/outdoor adventure brand.`;
 
       const response = await fetch('/api/generate-image', {
@@ -768,6 +852,19 @@ Make it inspiring and Instagram-worthy for a hiking/outdoor adventure brand.`;
                   Create engaging social media posts for your hiking adventures with AI assistance
                 </p>
               </div>
+
+              {/* Brand Identity Indicator */}
+              {extractedBrand && (
+                <div className="mb-8 p-4 bg-[#FBD784]/10 border border-[#FBD784]/30 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <Check className="size-5 text-[#FBD784]" />
+                    <div>
+                      <p className="font-bold text-[#FBD784]">Brand Identity Active</p>
+                      <p className="text-sm text-white/70">Posts will be generated using your extracted brand guidelines</p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Input Section */}
