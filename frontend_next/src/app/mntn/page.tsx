@@ -177,6 +177,14 @@ export default function MNTNPage() {
   const [isLoading, setIsLoading] = React.useState(false);
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
 
+  // Social Media Generator State
+  const [socialTopic, setSocialTopic] = React.useState("");
+  const [socialPlatform, setSocialPlatform] = React.useState("instagram");
+  const [socialTone, setSocialTone] = React.useState("inspirational");
+  const [socialDetails, setSocialDetails] = React.useState("");
+  const [generatedPost, setGeneratedPost] = React.useState("");
+  const [isGenerating, setIsGenerating] = React.useState(false);
+
   React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
@@ -258,6 +266,94 @@ export default function MNTNPage() {
     
     // Default response
     return "Great question! I can help you with trail recommendations, weather conditions, gear advice, safety tips, and route planning. What specific aspect of your hiking adventure would you like to explore?";
+  };
+
+  const handleGeneratePost = async () => {
+    if (!socialTopic.trim()) return;
+
+    setIsGenerating(true);
+    setGeneratedPost("");
+
+    try {
+      const platformGuidelines = {
+        instagram: "Use emojis, include 3-5 relevant hashtags, keep it visual and inspiring, max 2200 characters",
+        twitter: "Keep under 280 characters, use 1-2 hashtags, be concise and engaging",
+        facebook: "More detailed and conversational, can be longer, include call-to-action"
+      };
+
+      const toneDescriptions = {
+        inspirational: "motivational and uplifting, encouraging others to get outdoors",
+        educational: "informative and helpful, sharing knowledge and tips",
+        adventurous: "exciting and bold, emphasizing the thrill of exploration",
+        casual: "friendly and relatable, like talking to a friend"
+      };
+
+      const systemPrompt = `You are a social media content creator for MNTN, a hiking and outdoor adventure brand.
+Create an engaging ${socialPlatform} post about: "${socialTopic}"
+
+Platform guidelines: ${platformGuidelines[socialPlatform as keyof typeof platformGuidelines]}
+Tone: ${toneDescriptions[socialTone as keyof typeof toneDescriptions]}
+${socialDetails ? `Additional context: ${socialDetails}` : ''}
+
+Make it authentic, engaging, and optimized for ${socialPlatform}. Include relevant emojis and hashtags.`;
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: [
+            { role: 'user', content: systemPrompt }
+          ],
+          system: 'You are an expert social media content creator specializing in outdoor and hiking content.'
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to generate post');
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let content = '';
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          
+          const chunk = decoder.decode(value);
+          content += chunk;
+          setGeneratedPost(content);
+        }
+      }
+
+      setIsGenerating(false);
+    } catch (error) {
+      console.error('Error generating post:', error);
+      setGeneratedPost("Sorry, I couldn't generate a post right now. Please try again.");
+      setIsGenerating(false);
+    }
+  };
+
+  const handleCopyPost = () => {
+    if (generatedPost) {
+      navigator.clipboard.writeText(generatedPost);
+      // You could add a toast notification here
+    }
+  };
+
+  const handleDownloadPost = () => {
+    if (generatedPost) {
+      const blob = new Blob([generatedPost], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${socialPlatform}-post-${Date.now()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
   };
 
   return (
@@ -585,6 +681,8 @@ export default function MNTNPage() {
                         Adventure Topic
                       </label>
                       <Input
+                        value={socialTopic}
+                        onChange={(e) => setSocialTopic(e.target.value)}
                         placeholder="e.g., Summit of Mount Rainier, Backpacking in Yosemite..."
                         className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-[#FBD784]"
                       />
@@ -595,15 +693,24 @@ export default function MNTNPage() {
                         Platform
                       </label>
                       <div className="grid grid-cols-3 gap-3">
-                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                        <Button 
+                          onClick={() => setSocialPlatform('instagram')}
+                          className={`border border-white/10 ${socialPlatform === 'instagram' ? 'bg-[#FBD784] text-[#0B1D26]' : 'bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26]'}`}
+                        >
                           <Instagram className="size-4 mr-2" />
                           Instagram
                         </Button>
-                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                        <Button 
+                          onClick={() => setSocialPlatform('twitter')}
+                          className={`border border-white/10 ${socialPlatform === 'twitter' ? 'bg-[#FBD784] text-[#0B1D26]' : 'bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26]'}`}
+                        >
                           <Twitter className="size-4 mr-2" />
                           Twitter
                         </Button>
-                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                        <Button 
+                          onClick={() => setSocialPlatform('facebook')}
+                          className={`border border-white/10 ${socialPlatform === 'facebook' ? 'bg-[#FBD784] text-[#0B1D26]' : 'bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26]'}`}
+                        >
                           <MessageCircle className="size-4 mr-2" />
                           Facebook
                         </Button>
@@ -615,16 +722,28 @@ export default function MNTNPage() {
                         Tone
                       </label>
                       <div className="grid grid-cols-2 gap-3">
-                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                        <Button 
+                          onClick={() => setSocialTone('inspirational')}
+                          className={`border border-white/10 ${socialTone === 'inspirational' ? 'bg-[#FBD784] text-[#0B1D26]' : 'bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26]'}`}
+                        >
                           Inspirational
                         </Button>
-                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                        <Button 
+                          onClick={() => setSocialTone('educational')}
+                          className={`border border-white/10 ${socialTone === 'educational' ? 'bg-[#FBD784] text-[#0B1D26]' : 'bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26]'}`}
+                        >
                           Educational
                         </Button>
-                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                        <Button 
+                          onClick={() => setSocialTone('adventurous')}
+                          className={`border border-white/10 ${socialTone === 'adventurous' ? 'bg-[#FBD784] text-[#0B1D26]' : 'bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26]'}`}
+                        >
                           Adventurous
                         </Button>
-                        <Button className="bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26] border border-white/10">
+                        <Button 
+                          onClick={() => setSocialTone('casual')}
+                          className={`border border-white/10 ${socialTone === 'casual' ? 'bg-[#FBD784] text-[#0B1D26]' : 'bg-white/5 hover:bg-[#FBD784] hover:text-[#0B1D26]'}`}
+                        >
                           Casual
                         </Button>
                       </div>
@@ -635,14 +754,20 @@ export default function MNTNPage() {
                         Additional Details (Optional)
                       </label>
                       <Textarea
+                        value={socialDetails}
+                        onChange={(e) => setSocialDetails(e.target.value)}
                         placeholder="Add specific details, hashtags, or mentions..."
                         className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-[#FBD784] min-h-[100px]"
                       />
                     </div>
 
-                    <Button className="w-full bg-[#FBD784] text-[#0B1D26] hover:bg-[#FBD784]/90 font-bold py-6">
+                    <Button 
+                      onClick={handleGeneratePost}
+                      disabled={!socialTopic.trim() || isGenerating}
+                      className="w-full bg-[#FBD784] text-[#0B1D26] hover:bg-[#FBD784]/90 font-bold py-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
                       <Sparkles className="size-5 mr-2" />
-                      Generate Post
+                      {isGenerating ? 'Generating...' : 'Generate Post'}
                     </Button>
                   </div>
                 </Card>
@@ -653,24 +778,57 @@ export default function MNTNPage() {
                     <div className="flex items-center justify-between">
                       <h3 className="text-xl font-bold text-[#FBD784]">Generated Content</h3>
                       <div className="flex gap-2">
-                        <Button size="icon" variant="ghost" className="hover:bg-white/10">
+                        <Button 
+                          size="icon" 
+                          variant="ghost" 
+                          className="hover:bg-white/10"
+                          onClick={handleGeneratePost}
+                          disabled={!socialTopic.trim() || isGenerating}
+                          title="Regenerate"
+                        >
                           <RefreshCw className="size-4" />
                         </Button>
-                        <Button size="icon" variant="ghost" className="hover:bg-white/10">
+                        <Button 
+                          size="icon" 
+                          variant="ghost" 
+                          className="hover:bg-white/10"
+                          onClick={handleCopyPost}
+                          disabled={!generatedPost}
+                          title="Copy to clipboard"
+                        >
                           <Copy className="size-4" />
                         </Button>
-                        <Button size="icon" variant="ghost" className="hover:bg-white/10">
+                        <Button 
+                          size="icon" 
+                          variant="ghost" 
+                          className="hover:bg-white/10"
+                          onClick={handleDownloadPost}
+                          disabled={!generatedPost}
+                          title="Download as text"
+                        >
                           <Download className="size-4" />
                         </Button>
                       </div>
                     </div>
 
                     <div className="bg-white/5 border border-white/10 rounded-lg p-6 min-h-[300px]">
-                      <div className="text-center text-white/40 py-12">
-                        <Sparkles className="size-12 mx-auto mb-4 opacity-50" />
-                        <p className="font-medium">Your generated post will appear here</p>
-                        <p className="text-sm mt-2">Fill in the details and click Generate Post</p>
-                      </div>
+                      {isGenerating ? (
+                        <div className="text-center text-white/60 py-12">
+                          <RefreshCw className="size-12 mx-auto mb-4 animate-spin text-[#FBD784]" />
+                          <p className="font-medium">Generating your post...</p>
+                          <p className="text-sm mt-2">This will take just a moment</p>
+                        </div>
+                      ) : generatedPost ? (
+                        <div className="text-white/90 leading-relaxed whitespace-pre-wrap">
+                          {generatedPost}
+                        </div>
+                      ) : (
+                        <div className="text-center text-white/40 py-12">
+                          <Sparkles className="size-12 mx-auto mb-4 opacity-50" />
+                          <p className="font-medium">Your generated post will appear here</p>
+                          <p className="text-sm mt-2">Fill in the details and click Generate Post</p>
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-3">
