@@ -33,6 +33,7 @@ const HEADER_LINKS = [
   { href: "#equipment", label: "Equipment" },
   { href: "#about-us", label: "About us" },
   { href: "#blog", label: "Blog" },
+  { href: "/ai-chat", label: "AI Chat" },
 ];
 
 const carouselImages = [
