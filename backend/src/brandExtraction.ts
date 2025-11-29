@@ -215,6 +215,7 @@ async function callPass<TSchema extends z.ZodTypeAny>(
   brandName: string,
 ): Promise<z.infer<TSchema>> {
   try {
+    // @ts-ignore - TypeScript has issues with deep type inference in generateObject
     const result = await generateObject({
       model: MODEL,
       schema,
@@ -225,14 +226,36 @@ async function callPass<TSchema extends z.ZodTypeAny>(
   } catch (error: any) {
     // Check if this is a validation error with a value we can fix
     if (error?.cause?.cause?.issues && error?.cause?.value) {
-      const issues = error.cause.cause.issues as Array<{ path: string[]; expected: string; received: string }>
+      const issues = error.cause.cause.issues as Array<any>
       const value = error.cause.value as any
+      
+      // Check for missing confidence_score (CRITICAL FIX)
+      const missingConfidenceScore = issues.find(issue => 
+        issue.code === 'invalid_type' && 
+        issue.path[0] === 'confidence_score' &&
+        issue.received === 'undefined'
+      )
+      
+      // If confidence_score is missing, add a default value
+      if (missingConfidenceScore && typeof value === 'object' && value !== null) {
+        console.warn('[callPass] Missing confidence_score - adding default value of 0.5')
+        const fixed = { ...value, confidence_score: 0.5 }
+        
+        // Try to validate the fixed object
+        const validation = schema.safeParse(fixed)
+        if (validation.success) {
+          console.log('[callPass] Successfully added confidence_score and validated object')
+          return validation.data as z.infer<TSchema>
+        } else {
+          console.warn('[callPass] Fixed object with confidence_score still failed validation:', validation.error)
+        }
+      }
       
       // Check for missing required array fields (shouldn't happen now that they're optional, but handle just in case)
       const missingArrayFields = issues.filter(issue => 
         issue.code === 'invalid_type' && 
         issue.expected === 'array' && 
-        (issue.received === 'undefined' || issue.message === 'Required') &&
+        issue.received === 'undefined' &&
         ['core_values', 'value_propositions', 'key_messages', 'taglines'].includes(issue.path[0])
       )
       

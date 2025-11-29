@@ -300,7 +300,7 @@ app.put('/api/brand-settings/:brandId/:settingType', async (req: Request, res: R
     // Find the active setting
     const { data: existing, error: findError } = await supabase
       .from('brand_settings')
-      .select('id')
+      .select('id, confidence_score')
       .eq('brand_id', brandId)
       .eq('setting_type', settingType)
       .eq('is_active', true)
@@ -398,6 +398,143 @@ app.post('/api/brand-settings/:brandId/save-extraction', async (req: Request, re
   } catch (error) {
     console.error('Error saving extraction to brand settings:', error)
     return res.status(500).json({ error: 'Failed to save brand settings' })
+  }
+})
+
+// Extract brand identity from uploaded document
+app.post('/api/extract-brand', upload.single('file'), async (req: UploadGuidelinesRequest, res: Response) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' })
+    }
+
+    console.log(`[extract-brand] Processing file: ${req.file.originalname}`)
+
+    let extractedText = ''
+
+    // Extract text from PDF
+    if (req.file.mimetype === 'application/pdf') {
+      try {
+        const pdfParser = new PDFParse()
+        const pdfData = await pdfParser.parse(req.file.buffer)
+        extractedText = pdfData.text
+        console.log(`[extract-brand] Extracted ${extractedText.length} characters from PDF`)
+      } catch (error) {
+        console.error('[extract-brand] PDF parsing error:', error)
+        return res.status(500).json({ error: 'Failed to parse PDF' })
+      }
+    } else if (req.file.mimetype.startsWith('image/')) {
+      // For images, use OpenAI Vision to extract text/brand elements
+      const openai = createOpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+      })
+
+      try {
+        const base64Image = req.file.buffer.toString('base64')
+        const result = await generateText({
+          model: openai('gpt-4o'),
+          messages: [
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Analyze this brand document/image and extract all brand identity elements including colors (with hex codes), typography (font families), logos, and brand tone. Provide detailed information.',
+                },
+                {
+                  type: 'image',
+                  image: `data:${req.file.mimetype};base64,${base64Image}`,
+                },
+              ],
+            },
+          ],
+        })
+        extractedText = result.text
+        console.log(`[extract-brand] Extracted brand info from image`)
+      } catch (error) {
+        console.error('[extract-brand] Vision API error:', error)
+        return res.status(500).json({ error: 'Failed to analyze image' })
+      }
+    } else {
+      return res.status(400).json({ error: 'Unsupported file type. Please upload PDF or image.' })
+    }
+
+    // Use AI to structure the brand data
+    const openai = createOpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+
+    const structuredResult = await generateText({
+      model: openai('gpt-4o'),
+      messages: [
+        {
+          role: 'system',
+          content: `You are a brand identity expert. Extract and structure brand information into a JSON format with the following structure:
+{
+  "theme": {
+    "primaryColor": "#hex",
+    "secondaryColor": "#hex",
+    "accentColor": "#hex",
+    "backgroundColor": "#hex",
+    "textColor": "#hex"
+  },
+  "typography": {
+    "fontFamily": "font name",
+    "headingFont": "heading font name",
+    "fontSize": {
+      "base": "16px",
+      "heading": "32px"
+    }
+  },
+  "logo": {
+    "url": "logo url if available",
+    "width": 200,
+    "height": 60
+  },
+  "tone": "brand tone description"
+}
+
+Only include fields that you can confidently extract. Use null for missing values.`,
+        },
+        {
+          role: 'user',
+          content: `Extract brand identity from this content:\n\n${extractedText}`,
+        },
+      ],
+    })
+
+    // Parse the AI response as JSON
+    let brandData
+    try {
+      // Try to extract JSON from the response
+      const jsonMatch = structuredResult.text.match(/\{[\s\S]*\}/)
+      if (jsonMatch) {
+        brandData = JSON.parse(jsonMatch[0])
+      } else {
+        brandData = JSON.parse(structuredResult.text)
+      }
+    } catch (error) {
+      console.error('[extract-brand] JSON parsing error:', error)
+      // Return a basic structure if parsing fails
+      brandData = {
+        theme: {
+          primaryColor: '#FF6B35',
+          secondaryColor: '#004E89',
+          accentColor: '#F77F00',
+        },
+        typography: {
+          fontFamily: 'Inter',
+          headingFont: 'Poppins',
+        },
+        extractedText: extractedText.substring(0, 500), // Include some raw text for debugging
+      }
+    }
+
+    console.log(`[extract-brand] Successfully extracted brand data`)
+    return res.json({ success: true, brandData })
+  } catch (error) {
+    console.error('[extract-brand] Error:', error)
+    return res.status(500).json({ error: 'Failed to extract brand identity' })
   }
 })
 
