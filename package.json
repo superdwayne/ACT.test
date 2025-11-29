@@ -10,15 +10,23 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
+    "dev:acme": "npm run dev --workspace brands/acme-frontend",
     "build": "npm run build --workspaces --if-present",
+    "build:packages": "npm run build --workspace @act/tenant-config && npm run build --workspace @act/utils && npm run build --workspace @act/ui && npm run build --workspace @act/auth",
     "lint": "npm run lint --workspaces --if-present",
     "supabase": "supabase",
-    "brand-extraction": "npm run test-brand-extraction --workspace brand-extraction"
+    "brand-extraction": "npm run test-brand-extraction --workspace brand-extraction",
+    "setup": "./scripts/dev-setup.sh",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report"
   },
   "dependencies": {
     "@radix-ui/react-slider": "^1.3.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "supabase": "^2.54.11"
   }
 }

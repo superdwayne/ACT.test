@@ -1,0 +1,44 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - generic [ref=e6]:
+    - heading "FLUX.1-dev Image Generation" [level=3] [ref=e7]
+    - paragraph [ref=e8]: High-quality AI image generation powered by Hugging Face
+  - generic [ref=e11]:
+    - generic [ref=e12]:
+      - tab "Text to Image" [selected] [ref=e13]
+      - tab "Image to Image" [ref=e14]
+      - tab "Inpainting" [ref=e15]
+    - tabpanel [ref=e16]:
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - heading "Text to Image Generation" [level=3] [ref=e20]
+          - paragraph [ref=e21]: Describe the image you want to generate using natural language
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - text: Prompt *
+            - textbox "Prompt *" [ref=e25]:
+              - /placeholder: Describe the image you want to generate...
+          - generic [ref=e26]:
+            - text: Negative Prompt
+            - textbox "Negative Prompt" [ref=e27]:
+              - /placeholder: Describe what you want to avoid in the image...
+          - generic [ref=e28]:
+            - generic [ref=e29]:
+              - text: Inference Steps (28-50)
+              - spinbutton "Inference Steps (28-50)" [ref=e30]: "28"
+            - generic [ref=e31]:
+              - text: Guidance Scale (3.5 recommended)
+              - spinbutton "Guidance Scale (3.5 recommended)" [ref=e32]: "3.5"
+            - generic [ref=e33]:
+              - text: Height
+              - spinbutton "Height" [ref=e34]: "1024"
+            - generic [ref=e35]:
+              - text: Width
+              - spinbutton "Width" [ref=e36]: "1024"
+            - generic [ref=e37]:
+              - text: Seed (optional)
+              - spinbutton "Seed (optional)" [ref=e38]
+          - button "Generate Image" [disabled]
+```
