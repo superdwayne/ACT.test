@@ -14,6 +14,9 @@ import {
   Backpack,
   Camera,
   Check,
+  Send,
+  MessageCircle,
+  Bot,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -23,6 +26,8 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const HEADER_LINKS = [
   { href: "#equipment", label: "Equipment" },
@@ -35,6 +40,39 @@ const carouselImages = [
   { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80", alt: "Rocky mountain peak" },
   { src: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80", alt: "Hiker on mountain trail" },
   { src: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800&q=80", alt: "Mountain valley view" },
+];
+
+const SAMPLE_MESSAGES = [
+  {
+    id: 1,
+    role: "assistant",
+    content: "Welcome to MNTN Trail Assistant! I'm here to help you plan your next adventure. What kind of hike are you looking for?",
+    timestamp: "2:15 PM",
+  },
+  {
+    id: 2,
+    role: "user",
+    content: "I'm looking for a moderate day hike with great views, preferably under 10 miles.",
+    timestamp: "2:16 PM",
+  },
+  {
+    id: 3,
+    role: "assistant",
+    content: "Perfect! Based on your criteria, I'd recommend the Eagle Peak Trail. It's 8.5 miles with stunning panoramic views. The elevation gain is about 2,000 feet, making it a solid moderate hike. Would you like more details about this trail?",
+    timestamp: "2:16 PM",
+  },
+  {
+    id: 4,
+    role: "user",
+    content: "Yes, what's the best time to go?",
+    timestamp: "2:17 PM",
+  },
+  {
+    id: 5,
+    role: "assistant",
+    content: "For Eagle Peak, I recommend starting early morning (6-7 AM) to catch the sunrise from the summit. The golden hour lighting is spectacular for photos. Weather is typically best from June through September. Current conditions show clear skies this weekend!",
+    timestamp: "2:17 PM",
+  },
 ];
 
 const AI_AGENTS = [
@@ -123,7 +161,96 @@ const Logo = () => (
   </Link>
 );
 
-export default function Mntn() {
+export default function MNTNPage() {
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+  const [messages, setMessages] = React.useState(SAMPLE_MESSAGES);
+  const [inputValue, setInputValue] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const scrollAreaRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  React.useEffect(() => {
+    // Auto-scroll to bottom when new messages arrive
+    if (scrollAreaRef.current) {
+      const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      }
+    }
+  }, [messages]);
+
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputValue.trim() || isLoading) return;
+
+    const userMessage = {
+      id: messages.length + 1,
+      role: "user" as const,
+      content: inputValue,
+      timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInputValue("");
+    setIsLoading(true);
+
+    // Simulate AI response
+    setTimeout(() => {
+      const aiResponse = generateAIResponse(inputValue);
+      const aiMessage = {
+        id: messages.length + 2,
+        role: "assistant" as const,
+        content: aiResponse,
+        timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+      };
+      setMessages((prev) => [...prev, aiMessage]);
+      setIsLoading(false);
+    }, 1000 + Math.random() * 1000);
+  };
+
+  const generateAIResponse = (userInput: string): string => {
+    const input = userInput.toLowerCase();
+    
+    // Trail recommendations
+    if (input.includes('trail') || input.includes('hike') || input.includes('recommend')) {
+      return "I'd recommend checking out these popular trails: Eagle Peak (8.5 mi, moderate), Summit Ridge (12 mi, challenging), or Meadow Loop (4 mi, easy). Each offers unique views and experiences. Would you like detailed information about any of these?";
+    }
+    
+    // Weather queries
+    if (input.includes('weather') || input.includes('condition')) {
+      return "Current conditions are looking great! Clear skies with temperatures around 65°F. Perfect hiking weather. Sunrise is at 6:15 AM and sunset at 7:45 PM. I recommend starting early to avoid afternoon heat.";
+    }
+    
+    // Gear questions
+    if (input.includes('gear') || input.includes('equipment') || input.includes('pack')) {
+      return "Essential gear for day hiking: sturdy boots, 2L water, snacks/lunch, first aid kit, map/GPS, sun protection, and layers. For overnight trips, add tent, sleeping bag, and cooking equipment. What type of hike are you planning?";
+    }
+    
+    // Safety questions
+    if (input.includes('safe') || input.includes('danger') || input.includes('bear')) {
+      return "Safety first! Always tell someone your plans, carry the 10 essentials, stay on marked trails, and check weather forecasts. For wildlife, make noise while hiking and store food properly. Need specific safety tips for your destination?";
+    }
+    
+    // Difficulty questions
+    if (input.includes('difficult') || input.includes('easy') || input.includes('beginner')) {
+      return "Trail difficulty depends on distance, elevation gain, and terrain. Beginner: <5 miles, <1000ft gain. Moderate: 5-10 miles, 1000-2000ft. Advanced: 10+ miles, 2000ft+ gain. What's your experience level?";
+    }
+    
+    // Time/duration questions
+    if (input.includes('time') || input.includes('long') || input.includes('duration')) {
+      return "Plan for 2-3 mph on flat terrain, 1-2 mph on steep sections. Add time for breaks, photos, and navigation. A 10-mile moderate hike typically takes 4-6 hours. What distance are you considering?";
+    }
+    
+    // Default response
+    return "Great question! I can help you with trail recommendations, weather conditions, gear advice, safety tips, and route planning. What specific aspect of your hiking adventure would you like to explore?";
+  };
+
   return (
     <div className="bg-[#0B1D26] text-white" style={{ fontFamily: '"Gilroy", sans-serif' }}>
       {/* Side Social Links */}
@@ -287,6 +414,136 @@ export default function Mntn() {
                     </div>
                   );
                 })}
+              </div>
+            </div>
+          </section>
+
+          {/* AI Chat Interface */}
+          <section id="chat" className="relative py-32 px-4 bg-gradient-to-b from-[#0B1D26] to-[#0B1D26]/95">
+            <div className="container mx-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-7xl mx-auto">
+                {/* Left Side - Info */}
+                <div className="animate-in fade-in slide-in-from-left-8 duration-700">
+                  <div className="flex items-center gap-4 mb-6">
+                    <hr className="w-16 border-[#FBD784]" />
+                    <p className="font-extrabold uppercase tracking-[0.3em] text-[#FBD784]">
+                      Live Assistance
+                    </p>
+                  </div>
+                  <h2 className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-6" style={{ fontFamily: '"Chronicle Display", serif' }}>
+                    Chat with Trail AI
+                  </h2>
+                  <p className="text-lg font-bold leading-relaxed text-white/70 mb-8">
+                    Get instant answers about trails, gear, weather conditions, and safety tips. Our AI assistant is trained on thousands of hiking experiences.
+                  </p>
+                  
+                  <div className="space-y-4 mb-8">
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-[#FBD784]/10">
+                        <MessageCircle className="size-5 text-[#FBD784]" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold mb-1">Real-time Responses</h4>
+                        <p className="text-white/60 text-sm">Get immediate answers to your hiking questions</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-[#FBD784]/10">
+                        <Compass className="size-5 text-[#FBD784]" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold mb-1">Trail Recommendations</h4>
+                        <p className="text-white/60 text-sm">Personalized suggestions based on your preferences</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-[#FBD784]/10">
+                        <Mountain className="size-5 text-[#FBD784]" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold mb-1">Expert Knowledge</h4>
+                        <p className="text-white/60 text-sm">Trained on extensive hiking data and safety protocols</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Side - Chat Interface */}
+                <div className="animate-in fade-in slide-in-from-right-8 duration-700 delay-300">
+                  <div className="border border-white/10 bg-[#0B1D26] overflow-hidden">
+                    {/* Chat Header */}
+                    <div className="border-b border-white/10 p-6 bg-[#FBD784]/5">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-[#FBD784]/20 rounded-full">
+                          <Bot className="size-6 text-[#FBD784]" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-lg">Trail Guide AI</h3>
+                          <p className="text-xs text-white/60">Online • Ready to help</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Chat Messages */}
+                    <ScrollArea ref={scrollAreaRef} className="h-[400px] p-6">
+                      <div className="space-y-4">
+                        {messages.map((message) => (
+                          <div
+                            key={message.id}
+                            className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom-4 duration-500`}
+                          >
+                            <div className={`max-w-[80%] ${message.role === "user" ? "order-2" : "order-1"}`}>
+                              <div
+                                className={`p-4 ${
+                                  message.role === "user"
+                                    ? "bg-[#FBD784] text-[#0B1D26]"
+                                    : "bg-white/5 text-white border border-white/10"
+                                }`}
+                              >
+                                <p className="text-sm leading-relaxed font-medium">{message.content}</p>
+                              </div>
+                              <p className="text-xs text-white/40 mt-1 px-1">{message.timestamp}</p>
+                            </div>
+                          </div>
+                        ))}
+                        {isLoading && (
+                          <div className="flex justify-start animate-in fade-in duration-300">
+                            <div className="max-w-[80%]">
+                              <div className="p-4 bg-white/5 border border-white/10">
+                                <div className="flex gap-1">
+                                  <div className="size-2 bg-[#FBD784] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                                  <div className="size-2 bg-[#FBD784] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                                  <div className="size-2 bg-[#FBD784] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </ScrollArea>
+
+                    {/* Chat Input */}
+                    <div className="border-t border-white/10 p-4 bg-[#0B1D26]">
+                      <form onSubmit={handleSendMessage} className="flex gap-2">
+                        <Input
+                          value={inputValue}
+                          onChange={(e) => setInputValue(e.target.value)}
+                          placeholder="Ask about trails, gear, or conditions..."
+                          className="flex-1 bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-[#FBD784] focus:ring-[#FBD784]"
+                          disabled={isLoading}
+                        />
+                        <Button 
+                          type="submit"
+                          disabled={isLoading || !inputValue.trim()}
+                          className="bg-[#FBD784] text-[#0B1D26] hover:bg-[#FBD784]/90 px-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <Send className="size-4" />
+                        </Button>
+                      </form>
+                      <p className="text-xs text-white/40 mt-2">Press Enter to send • Powered by MNTN AI</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
