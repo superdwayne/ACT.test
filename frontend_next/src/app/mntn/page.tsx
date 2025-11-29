@@ -9,6 +9,11 @@ import {
   Mountain,
   Twitter,
   User,
+  Compass,
+  Map,
+  Backpack,
+  Camera,
+  Check,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -30,6 +35,41 @@ const carouselImages = [
   { src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80", alt: "Rocky mountain peak" },
   { src: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80", alt: "Hiker on mountain trail" },
   { src: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800&q=80", alt: "Mountain valley view" },
+];
+
+const AI_AGENTS = [
+  {
+    id: "trail-guide",
+    name: "Trail Guide AI",
+    icon: Compass,
+    description: "Expert navigation assistant for route planning and real-time trail guidance",
+    features: ["Route optimization", "Weather alerts", "Difficulty assessment"],
+    popular: true,
+  },
+  {
+    id: "gear-advisor",
+    name: "Gear Advisor",
+    icon: Backpack,
+    description: "Personalized equipment recommendations based on your hiking style and conditions",
+    features: ["Equipment matching", "Budget optimization", "Seasonal advice"],
+    popular: false,
+  },
+  {
+    id: "map-analyst",
+    name: "Map Analyst",
+    icon: Map,
+    description: "Topographic analysis and terrain interpretation for safer adventures",
+    features: ["Elevation profiles", "Landmark identification", "Safety zones"],
+    popular: false,
+  },
+  {
+    id: "photo-scout",
+    name: "Photo Scout",
+    icon: Camera,
+    description: "Discover the best photography spots and optimal timing for stunning shots",
+    features: ["Golden hour alerts", "Viewpoint suggestions", "Composition tips"],
+    popular: true,
+  },
 ];
 
 const CONTENT_SECTIONS = [
@@ -176,6 +216,83 @@ export default function Mntn() {
               <a href="#equipment" className="flex items-center gap-4 font-bold text-lg animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500 transition-all hover:gap-6 group">
                 scroll down <ArrowDown className="size-6 transition-transform duration-300 group-hover:translate-y-1" />
               </a>
+            </div>
+          </section>
+
+          {/* AI Agent Selection */}
+          <section id="agents" className="container mx-auto px-4 py-20 md:py-32">
+            <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <hr className="w-16 border-[#FBD784]" />
+                <p className="font-extrabold uppercase tracking-[0.3em] text-[#FBD784]">
+                  AI Assistants
+                </p>
+                <hr className="w-16 border-[#FBD784]" />
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-4" style={{ fontFamily: '"Chronicle Display", serif' }}>
+                Choose Your Hiking Companion
+              </h2>
+              <p className="text-lg text-white/70 max-w-2xl mx-auto">
+                Select an AI agent to enhance your mountain adventure with personalized guidance and insights
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+              {AI_AGENTS.map((agent, index) => {
+                const IconComponent = agent.icon;
+                return (
+                  <div
+                    key={agent.id}
+                    className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-500 hover:scale-105 hover:shadow-2xl animate-in fade-in slide-in-from-bottom-8 duration-700 ${
+                      agent.popular
+                        ? 'border-[#FBD784] bg-gradient-to-br from-[#FBD784]/10 to-transparent'
+                        : 'border-white/20 bg-[#0B1D26]/50 hover:border-[#FBD784]/50'
+                    }`}
+                    style={{ animationDelay: `${index * 150}ms` }}
+                  >
+                    {agent.popular && (
+                      <div className="absolute top-4 right-4 bg-[#FBD784] text-[#0B1D26] px-3 py-1 rounded-full text-xs font-bold uppercase">
+                        Popular
+                      </div>
+                    )}
+                    
+                    <div className="p-8">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="p-3 rounded-xl bg-[#FBD784]/20 group-hover:bg-[#FBD784]/30 transition-colors">
+                          <IconComponent className="size-8 text-[#FBD784]" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-2xl font-bold mb-2 group-hover:text-[#FBD784] transition-colors">
+                            {agent.name}
+                          </h3>
+                          <p className="text-white/70 text-sm leading-relaxed">
+                            {agent.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2 mb-6">
+                        {agent.features.map((feature, idx) => (
+                          <div key={idx} className="flex items-center gap-2 text-sm">
+                            <Check className="size-4 text-[#FBD784] shrink-0" />
+                            <span className="text-white/80">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <Button
+                        className={`w-full font-bold transition-all duration-300 ${
+                          agent.popular
+                            ? 'bg-[#FBD784] text-[#0B1D26] hover:bg-[#FBD784]/90'
+                            : 'bg-white/10 text-white hover:bg-[#FBD784] hover:text-[#0B1D26]'
+                        }`}
+                      >
+                        Select {agent.name}
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </section>
 
