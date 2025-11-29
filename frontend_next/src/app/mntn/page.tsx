@@ -184,6 +184,8 @@ export default function MNTNPage() {
   const [socialDetails, setSocialDetails] = React.useState("");
   const [generatedPost, setGeneratedPost] = React.useState("");
   const [isGenerating, setIsGenerating] = React.useState(false);
+  const [generatedImage, setGeneratedImage] = React.useState("");
+  const [isGeneratingImage, setIsGeneratingImage] = React.useState(false);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -353,6 +355,57 @@ Make it authentic, engaging, and optimized for ${socialPlatform}. Include releva
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+    }
+  };
+
+  const handleGenerateImage = async () => {
+    if (!socialTopic.trim()) return;
+
+    setIsGeneratingImage(true);
+
+    try {
+      const imagePrompt = `Create a stunning, professional photograph for a social media post about: ${socialTopic}. 
+Style: Outdoor adventure photography, dramatic lighting, epic landscape. 
+${socialDetails ? `Additional context: ${socialDetails}` : ''}
+Make it inspiring and Instagram-worthy for a hiking/outdoor adventure brand.`;
+
+      const response = await fetch('/api/generate-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: imagePrompt,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to generate image');
+
+      const data = await response.json();
+      setGeneratedImage(data.imageUrl);
+      setIsGeneratingImage(false);
+    } catch (error) {
+      console.error('Error generating image:', error);
+      setIsGeneratingImage(false);
+    }
+  };
+
+  const handleDownloadImage = async () => {
+    if (generatedImage) {
+      try {
+        const response = await fetch(generatedImage);
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${socialPlatform}-image-${Date.now()}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error('Error downloading image:', error);
+      }
     }
   };
 
@@ -844,6 +897,75 @@ Make it authentic, engaging, and optimized for ${socialPlatform}. Include releva
                         <Check className="size-4 text-[#FBD784]" />
                         <span>Platform-specific formatting</span>
                       </div>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Image Generation Section */}
+              <div className="mt-12">
+                <Card className="bg-white/5 border-white/10 p-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Image Generator Controls */}
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-2xl font-bold text-[#FBD784] mb-2">AI Image Generator</h3>
+                        <p className="text-sm text-white/60">Create stunning visuals for your social media post</p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <Button 
+                          onClick={handleGenerateImage}
+                          disabled={!socialTopic.trim() || isGeneratingImage}
+                          className="w-full bg-[#FBD784] text-[#0B1D26] hover:bg-[#FBD784]/90 font-bold py-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <ImageIcon className="size-5 mr-2" />
+                          {isGeneratingImage ? 'Generating Image...' : 'Generate Image'}
+                        </Button>
+
+                        {generatedImage && (
+                          <Button 
+                            onClick={handleDownloadImage}
+                            variant="outline"
+                            className="w-full border-[#FBD784] text-[#FBD784] hover:bg-[#FBD784] hover:text-[#0B1D26] font-bold"
+                          >
+                            <Download className="size-4 mr-2" />
+                            Download Image
+                          </Button>
+                        )}
+                      </div>
+
+                      <div className="space-y-2 text-xs text-white/50">
+                        <p>• Powered by DALL-E 3</p>
+                        <p>• High-quality 1024x1024 images</p>
+                        <p>• Optimized for social media</p>
+                        <p>• Takes ~10-15 seconds to generate</p>
+                      </div>
+                    </div>
+
+                    {/* Image Preview */}
+                    <div className="bg-white/5 border border-white/10 rounded-lg overflow-hidden min-h-[400px] flex items-center justify-center">
+                      {isGeneratingImage ? (
+                        <div className="text-center text-white/60 p-12">
+                          <RefreshCw className="size-16 mx-auto mb-4 animate-spin text-[#FBD784]" />
+                          <p className="font-medium text-lg">Creating your image...</p>
+                          <p className="text-sm mt-2">This may take 10-15 seconds</p>
+                        </div>
+                      ) : generatedImage ? (
+                        <div className="relative w-full h-full">
+                          <img 
+                            src={generatedImage} 
+                            alt="Generated social media image" 
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="text-center text-white/40 p-12">
+                          <ImageIcon className="size-16 mx-auto mb-4 opacity-50" />
+                          <p className="font-medium">Your AI-generated image will appear here</p>
+                          <p className="text-sm mt-2">Click Generate Image to create visuals</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </Card>
