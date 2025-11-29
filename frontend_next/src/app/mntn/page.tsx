@@ -220,79 +220,74 @@ export default function Mntn() {
           </section>
 
           {/* AI Agent Selection */}
-          <section id="agents" className="container mx-auto px-4 py-20 md:py-32">
-            <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <hr className="w-16 border-[#FBD784]" />
-                <p className="font-extrabold uppercase tracking-[0.3em] text-[#FBD784]">
-                  AI Assistants
+          <section id="agents" className="relative py-32 px-4 bg-[#0B1D26]">
+            <div className="container mx-auto">
+              <div className="max-w-4xl mx-auto text-left mb-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <div className="flex items-center gap-4 mb-6">
+                  <hr className="w-16 border-[#FBD784]" />
+                  <p className="font-extrabold uppercase tracking-[0.3em] text-[#FBD784]">
+                    AI Companions
+                  </p>
+                </div>
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-6" style={{ fontFamily: '"Chronicle Display", serif' }}>
+                  Choose Your Trail Assistant
+                </h2>
+                <p className="text-lg font-bold leading-relaxed text-white/70">
+                  Enhance your mountain journey with AI-powered guidance. Each assistant specializes in different aspects of your adventure.
                 </p>
-                <hr className="w-16 border-[#FBD784]" />
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-4" style={{ fontFamily: '"Chronicle Display", serif' }}>
-                Choose Your Hiking Companion
-              </h2>
-              <p className="text-lg text-white/70 max-w-2xl mx-auto">
-                Select an AI agent to enhance your mountain adventure with personalized guidance and insights
-              </p>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-              {AI_AGENTS.map((agent, index) => {
-                const IconComponent = agent.icon;
-                return (
-                  <div
-                    key={agent.id}
-                    className={`group relative overflow-hidden rounded-2xl border-2 transition-all duration-500 hover:scale-105 hover:shadow-2xl animate-in fade-in slide-in-from-bottom-8 duration-700 ${
-                      agent.popular
-                        ? 'border-[#FBD784] bg-gradient-to-br from-[#FBD784]/10 to-transparent'
-                        : 'border-white/20 bg-[#0B1D26]/50 hover:border-[#FBD784]/50'
-                    }`}
-                    style={{ animationDelay: `${index * 150}ms` }}
-                  >
-                    {agent.popular && (
-                      <div className="absolute top-4 right-4 bg-[#FBD784] text-[#0B1D26] px-3 py-1 rounded-full text-xs font-bold uppercase">
-                        Popular
-                      </div>
-                    )}
-                    
-                    <div className="p-8">
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="p-3 rounded-xl bg-[#FBD784]/20 group-hover:bg-[#FBD784]/30 transition-colors">
-                          <IconComponent className="size-8 text-[#FBD784]" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                {AI_AGENTS.map((agent, index) => {
+                  const IconComponent = agent.icon;
+                  return (
+                    <div
+                      key={agent.id}
+                      className="group relative overflow-hidden bg-[#0B1D26] border border-white/10 transition-all duration-500 hover:border-[#FBD784]/40 hover:shadow-2xl animate-in fade-in slide-in-from-bottom-8 duration-700"
+                      style={{ animationDelay: `${index * 150}ms` }}
+                    >
+                      {agent.popular && (
+                        <div className="absolute top-0 right-0 bg-[#FBD784] text-[#0B1D26] px-4 py-2 text-xs font-bold uppercase tracking-wider">
+                          Popular Choice
                         </div>
-                        <div className="flex-1">
-                          <h3 className="text-2xl font-bold mb-2 group-hover:text-[#FBD784] transition-colors">
+                      )}
+                      
+                      <div className="p-10">
+                        <div className="mb-8">
+                          <div className="inline-block p-4 bg-[#FBD784]/10 group-hover:bg-[#FBD784]/20 transition-colors mb-6">
+                            <IconComponent className="size-12 text-[#FBD784]" />
+                          </div>
+                          <h3 className="text-3xl font-bold mb-3 group-hover:text-[#FBD784] transition-colors" style={{ fontFamily: '"Chronicle Display", serif' }}>
                             {agent.name}
                           </h3>
-                          <p className="text-white/70 text-sm leading-relaxed">
+                          <p className="text-white/60 font-bold leading-relaxed">
                             {agent.description}
                           </p>
                         </div>
-                      </div>
 
-                      <div className="space-y-2 mb-6">
-                        {agent.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-center gap-2 text-sm">
-                            <Check className="size-4 text-[#FBD784] shrink-0" />
-                            <span className="text-white/80">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
+                        <div className="space-y-3 mb-8 pb-8 border-b border-white/10">
+                          {agent.features.map((feature, idx) => (
+                            <div key={idx} className="flex items-start gap-3">
+                              <div className="mt-1 p-1 bg-[#FBD784]/20">
+                                <Check className="size-3 text-[#FBD784]" />
+                              </div>
+                              <span className="text-white/70 font-medium">{feature}</span>
+                            </div>
+                          ))}
+                        </div>
 
-                      <Button
-                        className={`w-full font-bold transition-all duration-300 ${
-                          agent.popular
-                            ? 'bg-[#FBD784] text-[#0B1D26] hover:bg-[#FBD784]/90'
-                            : 'bg-white/10 text-white hover:bg-[#FBD784] hover:text-[#0B1D26]'
-                        }`}
-                      >
-                        Select {agent.name}
-                      </Button>
+                        <Link
+                          href="#"
+                          className="group/btn flex items-center gap-4 font-bold text-[#FBD784] transition-all duration-300 hover:gap-6"
+                        >
+                          Activate {agent.name}
+                          <ArrowDown className="size-5 rotate-[-90deg] transition-transform duration-300 group-hover/btn:translate-x-1" />
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </section>
 
