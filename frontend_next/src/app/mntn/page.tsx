@@ -22,6 +22,11 @@ import {
   Download,
   RefreshCw,
   Image as ImageIcon,
+  Upload,
+  FileText,
+  Palette,
+  Type,
+  Zap,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -42,6 +47,7 @@ const HEADER_LINKS = [
   { href: "#blog", label: "Blog" },
   { href: "/ai-chat", label: "AI Chat" },
   { href: "#social-generator", label: "Social Media" },
+  { href: "#brand-config", label: "Brand Config" },
 ];
 
 const carouselImages = [
@@ -186,6 +192,12 @@ export default function MNTNPage() {
   const [isGenerating, setIsGenerating] = React.useState(false);
   const [generatedImage, setGeneratedImage] = React.useState("");
   const [isGeneratingImage, setIsGeneratingImage] = React.useState(false);
+
+  // Brand Configuration State
+  const [brandFile, setBrandFile] = React.useState<File | null>(null);
+  const [isExtractingBrand, setIsExtractingBrand] = React.useState(false);
+  const [extractedBrand, setExtractedBrand] = React.useState<any>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -406,6 +418,38 @@ Make it inspiring and Instagram-worthy for a hiking/outdoor adventure brand.`;
       } catch (error) {
         console.error('Error downloading image:', error);
       }
+    }
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setBrandFile(file);
+    }
+  };
+
+  const handleExtractBrand = async () => {
+    if (!brandFile) return;
+
+    setIsExtractingBrand(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', brandFile);
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/extract-brand`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error('Failed to extract brand');
+
+      const data = await response.json();
+      setExtractedBrand(data.brandData);
+      setIsExtractingBrand(false);
+    } catch (error) {
+      console.error('Error extracting brand:', error);
+      setIsExtractingBrand(false);
     }
   };
 
@@ -1003,6 +1047,233 @@ Make it inspiring and Instagram-worthy for a hiking/outdoor adventure brand.`;
                     </p>
                   </Card>
                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Brand Configuration Section */}
+          <section id="brand-config" className="relative py-32 px-4 bg-gradient-to-b from-[#0B1D26] to-[#0B1D26]/95">
+            <div className="container mx-auto max-w-6xl">
+              <div className="text-center mb-16 animate-in fade-in duration-700">
+                <div className="flex items-center justify-center gap-4 mb-6">
+                  <hr className="w-16 border-[#FBD784]" />
+                  <p className="font-extrabold uppercase tracking-[0.3em] text-[#FBD784]">
+                    AI Powered
+                  </p>
+                  <hr className="w-16 border-[#FBD784]" />
+                </div>
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-6" style={{ fontFamily: '"Chronicle Display", serif' }}>
+                  Brand Configuration
+                </h2>
+                <p className="text-lg font-bold leading-relaxed text-white/70 max-w-2xl mx-auto">
+                  Extract your brand identity from documents using AI - colors, fonts, logos, and tone
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Upload Section */}
+                <Card className="bg-white/5 border-white/10 p-8">
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-2xl font-bold text-[#FBD784] mb-2">Upload Brand Document</h3>
+                      <p className="text-sm text-white/60">PDF, image, or brand guidelines document</p>
+                    </div>
+
+                    <div 
+                      onClick={() => fileInputRef.current?.click()}
+                      className="border-2 border-dashed border-white/20 rounded-lg p-12 text-center cursor-pointer hover:border-[#FBD784] transition-colors"
+                    >
+                      {brandFile ? (
+                        <div className="space-y-3">
+                          <FileText className="size-16 mx-auto text-[#FBD784]" />
+                          <p className="font-bold text-white">{brandFile.name}</p>
+                          <p className="text-sm text-white/60">{(brandFile.size / 1024).toFixed(2)} KB</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          <Upload className="size-16 mx-auto text-white/40" />
+                          <p className="font-bold text-white/60">Click to upload or drag and drop</p>
+                          <p className="text-sm text-white/40">PDF, PNG, JPG up to 10MB</p>
+                        </div>
+                      )}
+                    </div>
+
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".pdf,.png,.jpg,.jpeg"
+                      onChange={handleFileSelect}
+                      className="hidden"
+                    />
+
+                    <Button 
+                      onClick={handleExtractBrand}
+                      disabled={!brandFile || isExtractingBrand}
+                      className="w-full bg-[#FBD784] text-[#0B1D26] hover:bg-[#FBD784]/90 font-bold py-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Zap className="size-5 mr-2" />
+                      {isExtractingBrand ? 'Extracting Brand...' : 'Extract Brand Identity'}
+                    </Button>
+
+                    <div className="space-y-2 text-xs text-white/50">
+                      <p>• AI-powered extraction using OpenAI Vision</p>
+                      <p>• Identifies colors, fonts, logos, and tone</p>
+                      <p>• Structured JSON output</p>
+                      <p>• Takes ~5-10 seconds to process</p>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Results Section */}
+                <Card className="bg-white/5 border-white/10 p-8">
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-2xl font-bold text-[#FBD784] mb-2">Extracted Brand Identity</h3>
+                      <p className="text-sm text-white/60">Your brand configuration</p>
+                    </div>
+
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-6 min-h-[400px]">
+                      {isExtractingBrand ? (
+                        <div className="text-center text-white/60 py-12">
+                          <RefreshCw className="size-16 mx-auto mb-4 animate-spin text-[#FBD784]" />
+                          <p className="font-medium text-lg">Analyzing your brand...</p>
+                          <p className="text-sm mt-2">Extracting colors, fonts, and identity</p>
+                        </div>
+                      ) : extractedBrand ? (
+                        <div className="space-y-6">
+                          {/* Theme Colors */}
+                          {extractedBrand.theme && (
+                            <div>
+                              <div className="flex items-center gap-2 mb-3">
+                                <Palette className="size-5 text-[#FBD784]" />
+                                <h4 className="font-bold text-white">Colors</h4>
+                              </div>
+                              <div className="grid grid-cols-3 gap-3">
+                                {extractedBrand.theme.primaryColor && (
+                                  <div className="space-y-2">
+                                    <div 
+                                      className="h-12 rounded border border-white/10" 
+                                      style={{ backgroundColor: extractedBrand.theme.primaryColor }}
+                                    />
+                                    <p className="text-xs text-white/60">Primary</p>
+                                    <p className="text-xs font-mono text-white/80">{extractedBrand.theme.primaryColor}</p>
+                                  </div>
+                                )}
+                                {extractedBrand.theme.secondaryColor && (
+                                  <div className="space-y-2">
+                                    <div 
+                                      className="h-12 rounded border border-white/10" 
+                                      style={{ backgroundColor: extractedBrand.theme.secondaryColor }}
+                                    />
+                                    <p className="text-xs text-white/60">Secondary</p>
+                                    <p className="text-xs font-mono text-white/80">{extractedBrand.theme.secondaryColor}</p>
+                                  </div>
+                                )}
+                                {extractedBrand.theme.accentColor && (
+                                  <div className="space-y-2">
+                                    <div 
+                                      className="h-12 rounded border border-white/10" 
+                                      style={{ backgroundColor: extractedBrand.theme.accentColor }}
+                                    />
+                                    <p className="text-xs text-white/60">Accent</p>
+                                    <p className="text-xs font-mono text-white/80">{extractedBrand.theme.accentColor}</p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Typography */}
+                          {extractedBrand.typography && (
+                            <div>
+                              <div className="flex items-center gap-2 mb-3">
+                                <Type className="size-5 text-[#FBD784]" />
+                                <h4 className="font-bold text-white">Typography</h4>
+                              </div>
+                              <div className="space-y-2 text-sm">
+                                {extractedBrand.typography.fontFamily && (
+                                  <p className="text-white/80">
+                                    <span className="text-white/60">Font Family:</span> {extractedBrand.typography.fontFamily}
+                                  </p>
+                                )}
+                                {extractedBrand.typography.headingFont && (
+                                  <p className="text-white/80">
+                                    <span className="text-white/60">Heading Font:</span> {extractedBrand.typography.headingFont}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Logo */}
+                          {extractedBrand.logo?.url && (
+                            <div>
+                              <div className="flex items-center gap-2 mb-3">
+                                <ImageIcon className="size-5 text-[#FBD784]" />
+                                <h4 className="font-bold text-white">Logo</h4>
+                              </div>
+                              <img 
+                                src={extractedBrand.logo.url} 
+                                alt="Brand logo" 
+                                className="max-h-20 object-contain"
+                              />
+                            </div>
+                          )}
+
+                          <Button 
+                            onClick={() => {
+                              const json = JSON.stringify(extractedBrand, null, 2);
+                              const blob = new Blob([json], { type: 'application/json' });
+                              const url = URL.createObjectURL(blob);
+                              const a = document.createElement('a');
+                              a.href = url;
+                              a.download = `brand-config-${Date.now()}.json`;
+                              document.body.appendChild(a);
+                              a.click();
+                              document.body.removeChild(a);
+                              URL.revokeObjectURL(url);
+                            }}
+                            variant="outline"
+                            className="w-full border-[#FBD784] text-[#FBD784] hover:bg-[#FBD784] hover:text-[#0B1D26] font-bold"
+                          >
+                            <Download className="size-4 mr-2" />
+                            Download Configuration
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="text-center text-white/40 py-12">
+                          <Palette className="size-16 mx-auto mb-4 opacity-50" />
+                          <p className="font-medium">Your brand identity will appear here</p>
+                          <p className="text-sm mt-2">Upload a document and click Extract</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Features Grid */}
+              <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-6">
+                <Card className="bg-white/5 border-white/10 p-6 text-center">
+                  <Palette className="size-10 mx-auto mb-4 text-[#FBD784]" />
+                  <h4 className="font-bold mb-2">Color Extraction</h4>
+                  <p className="text-sm text-white/60">Primary, secondary, and accent colors</p>
+                </Card>
+                <Card className="bg-white/5 border-white/10 p-6 text-center">
+                  <Type className="size-10 mx-auto mb-4 text-[#FBD784]" />
+                  <h4 className="font-bold mb-2">Typography</h4>
+                  <p className="text-sm text-white/60">Font families and sizing</p>
+                </Card>
+                <Card className="bg-white/5 border-white/10 p-6 text-center">
+                  <ImageIcon className="size-10 mx-auto mb-4 text-[#FBD784]" />
+                  <h4 className="font-bold mb-2">Logo Detection</h4>
+                  <p className="text-sm text-white/60">Automatic logo identification</p>
+                </Card>
+                <Card className="bg-white/5 border-white/10 p-6 text-center">
+                  <Zap className="size-10 mx-auto mb-4 text-[#FBD784]" />
+                  <h4 className="font-bold mb-2">Instant Apply</h4>
+                  <p className="text-sm text-white/60">Apply to your entire site</p>
+                </Card>
               </div>
             </div>
           </section>
